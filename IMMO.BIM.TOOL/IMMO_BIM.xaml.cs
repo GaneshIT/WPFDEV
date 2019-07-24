@@ -43,8 +43,20 @@ namespace IMMO.BIM.TOOL
 
         private void BtnNewRoom_Click(object sender, RoutedEventArgs e)
         {
-            AddNewRoom newRoom = new AddNewRoom();
-            newRoom.Show();
+            if (lbDisplayRooms.Items.Count>0)
+            {
+                if (lbDisplayRooms.SelectedItem != null)
+                {
+                    AddNewRoom newRoom = new AddNewRoom(lbDisplayRooms.SelectedItem.ToString());
+                    newRoom.Show();
+                }
+                else
+                    MessageBox.Show("Select room");
+            }
+            else
+            {
+                MessageBox.Show("Select levels");
+            }
         }
 
         private void BtnEditRoom_Click(object sender, RoutedEventArgs e)
@@ -72,6 +84,28 @@ namespace IMMO.BIM.TOOL
             for (int i = 0; i < dtResult.Rows.Count; i++)
             {
                 lbDisplayBuilding.Items.Add(dtResult.Rows[i][0].ToString());
+            }
+        }
+
+        private void LbDisplayBuilding_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string query = "select geschoss_id,cad_id from kl_raum where geb_id=" + lbDisplayBuilding.SelectedItem + "";
+            DataTable dtResult = DataConnection.GetData(query);
+            lbDisplayLevels.Items.Clear();
+            for (int i = 0; i < dtResult.Rows.Count; i++)
+            {
+                lbDisplayLevels.Items.Add(dtResult.Rows[i][0].ToString() + ":" + dtResult.Rows[i][1].ToString());
+            }
+        }
+
+        private void LbDisplayLevels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string query = "select cad_id from kl_raum";// where geb_id=" + lbDisplayBuilding.SelectedItem + "";
+            DataTable dtResult = DataConnection.GetData(query);
+            lbDisplayRooms.Items.Clear();
+            for (int i = 0; i < dtResult.Rows.Count; i++)
+            {
+                lbDisplayRooms.Items.Add(dtResult.Rows[i][0].ToString());
             }
         }
     }

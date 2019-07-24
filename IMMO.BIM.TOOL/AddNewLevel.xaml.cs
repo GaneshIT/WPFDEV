@@ -22,13 +22,13 @@ namespace IMMO.BIM.TOOL
         public AddNewLevel()
         {
             InitializeComponent();
-            //string query = "select geb_id from kl_gebaeude";
-            //DataTable dtResult = DataConnection.GetData(query);
-            //lbDisplayBuilding.Items.Clear();
-            //for (int i = 0; i < dtResult.Rows.Count; i++)
-            //{
-            //    lbDisplayBuilding.Items.Add(dtResult.Rows[i][0].ToString());
-            //}
+            string query = "select geb_id from kl_gebaeude";
+            DataTable dtResult = DataConnection.GetData(query);
+            cbSelectFloor.Items.Clear();
+            for (int i = 0; i < dtResult.Rows.Count; i++)
+            {
+                cbSelectFloor.Items.Add(dtResult.Rows[i][0].ToString());
+            }
         }
 
         private void BtnActivate_Click(object sender, RoutedEventArgs e)

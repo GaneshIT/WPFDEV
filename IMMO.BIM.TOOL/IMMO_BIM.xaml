@@ -14,8 +14,8 @@
         <Button Name="btnNewBuilding" Content="New Building" HorizontalAlignment="Left" Margin="64,538,0,0" VerticalAlignment="Top" Width="154" Click="BtnNewBuilding_Click"/>
         <Button Name="btnNewRoom" Content="New room" HorizontalAlignment="Left" Margin="550,538,0,0" VerticalAlignment="Top" Width="154" RenderTransformOrigin="0.66,-0.536" Click="BtnNewRoom_Click"/>
         <Button Name="btnAddLevel" Content="Add level" HorizontalAlignment="Left" Margin="312,538,0,0" VerticalAlignment="Top" Width="154" Click="BtnAddLevel_Click"/>
-        <ListBox Name="lbDisplayBuilding" HorizontalAlignment="Left" Height="422" Margin="64,90,0,0" VerticalAlignment="Top" Width="142"/>
-        <ListBox Name="lbDisplayLevels" HorizontalAlignment="Left" Height="422" Margin="312,90,0,0" VerticalAlignment="Top" Width="142"/>
+        <ListBox Name="lbDisplayBuilding" HorizontalAlignment="Left" Height="422" Margin="64,90,0,0" VerticalAlignment="Top" Width="142" SelectionChanged="LbDisplayBuilding_SelectionChanged"/>
+        <ListBox Name="lbDisplayLevels" HorizontalAlignment="Left" Height="422" Margin="312,90,0,0" VerticalAlignment="Top" Width="142" SelectionChanged="LbDisplayLevels_SelectionChanged"/>
         <ListBox Name="lbDisplayRooms" HorizontalAlignment="Left" Height="422" Margin="550,90,0,0" VerticalAlignment="Top" Width="142"/>
         <Button Content="Edit Room" HorizontalAlignment="Left" Margin="843,462,0,0" VerticalAlignment="Top" Width="162" Name="btnEditRoom" Click="BtnEditRoom_Click" />
         <Button Name="btnDeleteRoom" Content="Delete Room" HorizontalAlignment="Left" Margin="843,496,0,0" VerticalAlignment="Top" Width="162" Height="22" Click="BtnDeleteRoom_Click"/>

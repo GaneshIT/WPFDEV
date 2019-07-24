@@ -7,26 +7,26 @@
         mc:Ignorable="d"
         Title="IMMO BIM Raum CAD-ID:" Height="840.001" Width="1264.037">
     <Grid>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="22,49,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="169,52,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="22,100,0,0" VerticalAlignment="Top"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="22,152,0,0" VerticalAlignment="Top"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="22,201,0,0" VerticalAlignment="Top"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="22,248,0,0" VerticalAlignment="Top"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="22,296,0,0" VerticalAlignment="Top"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="22,348,0,0" VerticalAlignment="Top"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="22,394,0,0" VerticalAlignment="Top"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="22,438,0,0" VerticalAlignment="Top"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="22,492,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="169,104,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="169,155,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="169,205,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="169,252,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="169,352,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="169,397,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="169,442,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="169,495,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <ComboBox HorizontalAlignment="Left" Margin="169,300,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.415,1.632"/>
+        <Label Content="Raum-Nr:" HorizontalAlignment="Left" Margin="22,49,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="txtraum" HorizontalAlignment="Left" Height="23" Margin="169,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Flaeche:" HorizontalAlignment="Left" Margin="22,100,0,0" VerticalAlignment="Top"/>
+        <Label Content="Lichte Hohe:" HorizontalAlignment="Left" Margin="22,152,0,0" VerticalAlignment="Top"/>
+        <Label Content="Anz. A.P:" HorizontalAlignment="Left" Margin="22,201,0,0" VerticalAlignment="Top"/>
+        <Label Content="Anz. M.A:" HorizontalAlignment="Left" Margin="22,248,0,0" VerticalAlignment="Top"/>
+        <Label Content="zustand sch:" HorizontalAlignment="Left" Margin="22,296,0,0" VerticalAlignment="Top"/>
+        <Label Content="Bemerkung:" HorizontalAlignment="Left" Margin="22,348,0,0" VerticalAlignment="Top"/>
+        <Label Content="Umfang [m]:" HorizontalAlignment="Left" Margin="22,394,0,0" VerticalAlignment="Top"/>
+        <Label Content="Anz. Heizho:" HorizontalAlignment="Left" Margin="22,438,0,0" VerticalAlignment="Top"/>
+        <Label Content="Anz. Patchsc:" HorizontalAlignment="Left" Margin="22,492,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="txtflaeche" HorizontalAlignment="Left" Height="23" Margin="169,104,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="txtLichte" HorizontalAlignment="Left" Height="23" Margin="169,155,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="txtAnzap" HorizontalAlignment="Left" Height="23" Margin="169,205,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="txtAnzma" HorizontalAlignment="Left" Height="23" Margin="169,252,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="txtbemerku" HorizontalAlignment="Left" Height="23" Margin="169,352,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="txtumfang" HorizontalAlignment="Left" Height="23" Margin="169,397,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="txtanzheizho" HorizontalAlignment="Left" Height="23" Margin="169,442,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="txtanzpatchsc" HorizontalAlignment="Left" Height="23" Margin="169,495,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="cbzustand" HorizontalAlignment="Left" Margin="169,300,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.415,1.632"/>
         <Button Name="btnNutzung" Content="Nutzung" HorizontalAlignment="Left" Margin="587,52,0,0" VerticalAlignment="Top" Width="75" Click="BtnNutzung_Click"/>
         <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="587,207,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.213,1.191" Height="20" Width="75"/>
         <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="587,259,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.213,1.191" Height="19" Width="75"/>
@@ -35,11 +35,11 @@
         <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="587,404,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.213,1.191" Height="19" Width="75"/>
         <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="587,457,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.213,1.191" Height="19" Width="75"/>
         <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="587,499,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.213,1.191" Height="19" Width="75"/>
-        <Button Content="Add Equipment" HorizontalAlignment="Left" Margin="745,41,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.272,0.415"/>
-        <Button Content="Remove Equipment" HorizontalAlignment="Left" Margin="853,41,0,0" VerticalAlignment="Top" Width="110"/>
-        <Button Content="Copy Equipment" HorizontalAlignment="Left" Margin="981,41,0,0" VerticalAlignment="Top" Width="107"/>
-        <Button Content="Edit Equipment" HorizontalAlignment="Left" Margin="1108,41,0,0" VerticalAlignment="Top" Width="86"/>
-        <Button Content="Save and close" HorizontalAlignment="Left" Margin="745,558,0,0" VerticalAlignment="Top" Width="449"/>
+        <Button Name="btnaddequipment" Content="Add Equipment" HorizontalAlignment="Left" Margin="745,41,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.272,0.415"/>
+        <Button Name="btnremoveequipment" Content="Remove Equipment" HorizontalAlignment="Left" Margin="853,41,0,0" VerticalAlignment="Top" Width="110"/>
+        <Button Name="btncopyequipment" Content="Copy Equipment" HorizontalAlignment="Left" Margin="981,41,0,0" VerticalAlignment="Top" Width="107"/>
+        <Button Name="btneditequipment" Content="Edit Equipment" HorizontalAlignment="Left" Margin="1108,41,0,0" VerticalAlignment="Top" Width="86"/>
+        <Button Name="btnsaveandclose" Content="Save and close" HorizontalAlignment="Left" Margin="745,558,0,0" VerticalAlignment="Top" Width="449"/>
         <ListView HorizontalAlignment="Left" Height="470" Margin="747,75,0,0" VerticalAlignment="Top" Width="446" RenderTransformOrigin="0.5,0.5">
             <ListView.RenderTransform>
                 <TransformGroup>

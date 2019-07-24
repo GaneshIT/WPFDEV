@@ -22,7 +22,12 @@ namespace IMMO.BIM.TOOL
         {
             InitializeComponent();
         }
+        public AddNewRoom(string cadId)
+        {
+            InitializeComponent();
 
+            this.Title ="IMMO BIM Raum CAD-ID: "+ cadId;
+        }
         private void BtnNutzung_Click(object sender, RoutedEventArgs e)
         {
             Nutzung nutzung = new Nutzung();
