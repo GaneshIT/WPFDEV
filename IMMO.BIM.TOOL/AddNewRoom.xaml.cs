@@ -31,7 +31,11 @@ namespace IMMO.BIM.TOOL
         private void BtnNutzung_Click(object sender, RoutedEventArgs e)
         {
             Nutzung nutzung = new Nutzung();
-            nutzung.Show();
+            nutzung.ShowDialog();
+            if (nutzung.UpdateGetSet)
+            {
+                lblnutzungResult.Content = nutzung.NutzungResult;
+            }
         }
     }
 }
