@@ -84,8 +84,14 @@ namespace IMMO.BIM.TOOL
                 telnetzdose = "Y";
             if (chkwasserabsperr.IsChecked == true)
                 wasserabsperr = "Y";
-            int id = 2;
-            string query = "insert into kl_raum values("+id+",'"+Building+"','"+Level+"','"+CadId+"','"+txtraum.Text+"','"+Bezeichnug+"','"+Max+"','"+IST+"',"+txtflaeche.Text+","+txtLichte.Text+","+txtAnzap.Text+","+txtAnzma.Text+",'"+ cbzustand.SelectionBoxItem+ "','"+txtbemerku.Text+"',"+txtumfang.Text+","+chkschukostdose.IsChecked + ","+txtanzheizho.Text+","+chktelnetzdose.IsChecked +","+txtanzpatchsc.Text+","+chksprinkler.IsChecked +","+chkgasabsperrsch.IsChecked+","+chkwasserabsperr.IsChecked+","+chkheizungabsperr.IsChecked+","+chkHydrant.IsChecked+")";
+            int id = 1;
+            string query= "select top 1 id from kl_raum order by id desc";
+            DataTable dt = DataConnection.GetData(query);
+            if(dt!=null && dt.Rows.Count > 0)
+            {
+                id = Int32.Parse(dt.Rows[0][0].ToString()) + 1;
+            }
+            query = "insert into kl_raum values("+id+",'"+Building+"','"+Level+"','"+CadId+"','"+txtraum.Text+"','"+Bezeichnug+"','"+Max+"','"+IST+"',"+txtflaeche.Text+","+txtLichte.Text+","+txtAnzap.Text+","+txtAnzma.Text+",'"+ cbzustand.SelectionBoxItem+ "','"+txtbemerku.Text+"',"+txtumfang.Text+","+chkschukostdose.IsChecked + ","+txtanzheizho.Text+","+chktelnetzdose.IsChecked +","+txtanzpatchsc.Text+","+chksprinkler.IsChecked +","+chkgasabsperrsch.IsChecked+","+chkwasserabsperr.IsChecked+","+chkheizungabsperr.IsChecked+","+chkHydrant.IsChecked+")";
             string msg = DataConnection.ExecuteQuery(query);
             MessageBox.Show("Saved Successfully");
             string txt = string.Empty;

@@ -9,7 +9,7 @@
     <Grid>
         <Label Content="Flachetyp IST:" HorizontalAlignment="Left" Margin="37,37,0,0" VerticalAlignment="Top"/>
         <Label Content="Nutzung IST:" HorizontalAlignment="Left" Margin="37,84,0,0" VerticalAlignment="Top"/>
-        <Label Content="Flachetyp MAX:" HorizontalAlignment="Left" Margin="37,130,0,0" VerticalAlignment="Top"/>
+        <Label Content="Flächetyp MAX:" HorizontalAlignment="Left" Margin="37,130,0,0" VerticalAlignment="Top"/>
         <Label Content="Nutzung MAX" HorizontalAlignment="Left" Margin="37,179,0,0" VerticalAlignment="Top"/>
         <Label Content="Bezeichnug:" HorizontalAlignment="Left" Margin="37,226,0,0" VerticalAlignment="Top"/>
         <ComboBox Name="cbflacheist" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="172,37,0,0" SelectionChanged="Cbflacheist_SelectionChanged">
