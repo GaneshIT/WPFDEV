@@ -38,7 +38,7 @@ namespace IMMO.BIM.TOOL
                 string query = "select * from kl_raum";
                 DataTable dt = DataConnection.GetData(query);
                 string txt = string.Empty;
-                FileStream fileStream = new FileStream("" + folderPath + "\\test.txt", FileMode.Create);
+                FileStream fileStream = new FileStream("" + folderPath + "\\file1.txt", FileMode.Create);
                 TextWriter sw = new StreamWriter(fileStream);
 
 
@@ -65,7 +65,11 @@ namespace IMMO.BIM.TOOL
 
                 sw.Close();
                 fileStream.Close();
-                Process.Start(folderPath + "\\test.txt", "notepad.exe");
+
+                File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\file2.txt", "" + folderPath + "\\file2.txt");
+                Process.Start(folderPath + "\\file1.txt", "notepad.exe");
+                Process.Start(folderPath + "\\file2.txt", "notepad.exe");
+
             }
             else
                 MessageBox.Show("Select folder to save file");

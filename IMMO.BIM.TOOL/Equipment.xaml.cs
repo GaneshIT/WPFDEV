@@ -47,17 +47,18 @@ namespace IMMO.BIM.TOOL
             InitializeComponent();
             AddTypes();
         }
-        public Equipment(string ausstatType)
+        public Equipment(string ausstatType,string[] controlValues)
         {
             InitializeComponent();
             AddTypes();
             cbAusstattungstyp.SelectedItem = ausstatType;
-            AddChildUserControl();
+            AddChildUserControl(controlValues);
         }
 
         private void CbAusstattungstyp_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AddChildUserControl();
+            string[] controlValues = null;
+            AddChildUserControl(controlValues);
         }
 
         private void AddTypes()
@@ -74,13 +75,13 @@ namespace IMMO.BIM.TOOL
             cbAusstattungstyp.Items.Add("tuer");
         }
 
-        private void AddChildUserControl()
+        private void AddChildUserControl(string[] controlValues)
         {
             gridAddUserCtrlAusstattungstyp.Children.Clear();
             SelectAusstattungsType = cbAusstattungstyp.SelectedValue.ToString();
             if (cbAusstattungstyp.SelectedValue.ToString() == "fenster")
             {
-                UserControlFensterType userControlFensterType = new UserControlFensterType();
+                UserControlFensterType userControlFensterType = new UserControlFensterType(controlValues);
                 gridAddUserCtrlAusstattungstyp.Children.Add(userControlFensterType);
 
 
@@ -88,42 +89,42 @@ namespace IMMO.BIM.TOOL
             }
             else if (cbAusstattungstyp.SelectedValue.ToString() == "bodenbelag")
             {
-                UserControlBodenblagType userControlBodenblagType = new UserControlBodenblagType();
+                UserControlBodenblagType userControlBodenblagType = new UserControlBodenblagType(controlValues);
                 gridAddUserCtrlAusstattungstyp.Children.Add(userControlBodenblagType);
             }
             else if (cbAusstattungstyp.SelectedValue.ToString() == "feuerloescher")
             {
-                UserControlFeuerloeschertyp userControlFeuerloeschertyp = new UserControlFeuerloeschertyp();
+                UserControlFeuerloeschertyp userControlFeuerloeschertyp = new UserControlFeuerloeschertyp(controlValues);
                 gridAddUserCtrlAusstattungstyp.Children.Add(userControlFeuerloeschertyp);
             }
             else if (cbAusstattungstyp.SelectedValue.ToString() == "glasbau-element")
             {
-                UserControlGlasbauType userControlGlasbauType = new UserControlGlasbauType();
+                UserControlGlasbauType userControlGlasbauType = new UserControlGlasbauType(controlValues);
                 gridAddUserCtrlAusstattungstyp.Children.Add(userControlGlasbauType);
             }
             else if (cbAusstattungstyp.SelectedValue.ToString() == "leuchte")
             {
-                UserControlLeuchtentyp userControlLeuchtentyp = new UserControlLeuchtentyp();
+                UserControlLeuchtentyp userControlLeuchtentyp = new UserControlLeuchtentyp(controlValues);
                 gridAddUserCtrlAusstattungstyp.Children.Add(userControlLeuchtentyp);
             }
             else if (cbAusstattungstyp.SelectedValue.ToString() == "oberlicht")
             {
-                UserControlOberlicut userControlOberlicut = new UserControlOberlicut();
+                UserControlOberlicut userControlOberlicut = new UserControlOberlicut(controlValues);
                 gridAddUserCtrlAusstattungstyp.Children.Add(userControlOberlicut);
             }
             else if (cbAusstattungstyp.SelectedValue.ToString() == "sonnenschutz")
             {
-                UserControlFensterType userControlFensterType = new UserControlFensterType();
+                UserControlFensterType userControlFensterType = new UserControlFensterType(controlValues);
                 gridAddUserCtrlAusstattungstyp.Children.Add(userControlFensterType);
             }
             else if (cbAusstattungstyp.SelectedValue.ToString() == "tor")
             {
-                UserControlTor userControlTor = new UserControlTor();
+                UserControlTor userControlTor = new UserControlTor(controlValues);
                 gridAddUserCtrlAusstattungstyp.Children.Add(userControlTor);
             }
             else if (cbAusstattungstyp.SelectedValue.ToString() == "tuer")
             {
-                UserControlTuer userControlTuer = new UserControlTuer();
+                UserControlTuer userControlTuer = new UserControlTuer(controlValues);
                 gridAddUserCtrlAusstattungstyp.Children.Add(userControlTuer);
             }
         }

@@ -43,9 +43,19 @@ namespace IMMO.BIM.TOOL
                 return selectChildValues;
             }
         }
-        public UserControlOberlicut()
+        public UserControlOberlicut(string[] controlValues)
         {
             InitializeComponent();
+
+            if (controlValues != null)
+            {
+                string[] heightwidth = controlValues[0].ToString().Split(' ')[1].ToString().Split('x');
+                txtHohe.Text = heightwidth[0].ToString().Replace("(", "");
+                txtBreite.Text = heightwidth[1].ToString().Replace(")", "");
+               
+            }
+
+
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)

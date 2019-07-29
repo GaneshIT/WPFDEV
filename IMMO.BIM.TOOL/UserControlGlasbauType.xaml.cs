@@ -44,7 +44,7 @@ namespace IMMO.BIM.TOOL
                 return selectChildValues;
             }
         }
-        public UserControlGlasbauType()
+        public UserControlGlasbauType(string[] controlValues)
         {
             InitializeComponent();
             string query = "select * from code_glasbauelementtyp";
@@ -54,12 +54,22 @@ namespace IMMO.BIM.TOOL
             {
                 cbGlasbauType.Items.Add(dt.Rows[i][1].ToString());
             }
+            if (cbGlasbauType.Items.Count > 0)
+            {
+                if (controlValues != null)
+                {
+                    cbGlasbauType.SelectedItem = controlValues[0].ToString().Split(' ')[1];
+                    txtGlasflaecheeinseitig.Text = controlValues[1];
+                    txtReinigungsflaechen.Text = controlValues[2];
+                }
+
+            }
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             UpdateChildGetSet = true;
-            SelectChildTypeValues = "glasbau-element " + cbGlasbauType.SelectedValue + ", " + txtGlasflaecheeinseitig.Text + ", " + txtReinigungsflaechen.Text;
+            SelectChildTypeValues = "glasbau-element " + cbGlasbauType.SelectedValue + "," + txtGlasflaecheeinseitig.Text + "," + txtReinigungsflaechen.Text;
             //var myWindow = 
             Window.GetWindow(this).Close();
         }

@@ -45,7 +45,7 @@ namespace IMMO.BIM.TOOL
             }
         }
 
-        public UserControlFensterType()
+        public UserControlFensterType(string[] controlValues)
         {
             InitializeComponent();
             cbFeststellanlage.Items.Clear();
@@ -58,12 +58,22 @@ namespace IMMO.BIM.TOOL
             {
                 cbFenstertyp.Items.Add(dt.Rows[i][1].ToString());
             }
+            if (cbFenstertyp.Items.Count > 0)
+            {
+                if (controlValues != null)
+                    cbFenstertyp.SelectedItem = controlValues[1];
+            } 
             query = "select * from code_fensterrahmenmaterial";
             dt = DataConnection.GetData(query);
             cbFensterrahmenmaterial.Items.Clear();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 cbFensterrahmenmaterial.Items.Add(dt.Rows[i][1].ToString());
+            }
+            if (cbFensterrahmenmaterial.Items.Count > 0)
+            {
+                if (controlValues != null)
+                    cbFensterrahmenmaterial.SelectedItem = controlValues[2];
             }
             query = "select * from code_verglasung";
             dt = DataConnection.GetData(query);
@@ -72,6 +82,21 @@ namespace IMMO.BIM.TOOL
             {
                 cbVerglasung.Items.Add(dt.Rows[i][1].ToString());
             }
+            if (cbVerglasung.Items.Count > 0)
+            {
+                if (controlValues != null)
+                    cbVerglasung.SelectedItem = controlValues[3];
+            }
+            if (controlValues != null)
+            {
+                string[] heightwidth = controlValues[0].ToString().Split(' ')[1].ToString().Split('x');
+                txtHohe.Text = heightwidth[0].ToString().Replace("(", "");
+                txtBreite.Text = heightwidth[1].ToString().Replace(")", "");
+                cbFeststellanlage.SelectedItem = controlValues[4];
+                txtTuernummer.Text = controlValues[5];
+            }
+
+            
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)

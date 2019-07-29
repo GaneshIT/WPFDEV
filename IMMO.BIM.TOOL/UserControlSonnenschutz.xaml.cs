@@ -44,7 +44,7 @@ namespace IMMO.BIM.TOOL
                 return selectChildValues;
             }
         }
-        public UserControlSonnenschutz()
+        public UserControlSonnenschutz(string[] controlValues)
         {
             InitializeComponent();
             string query = "select * from code_sonnenschutztyp";
@@ -54,19 +54,37 @@ namespace IMMO.BIM.TOOL
             {
                 cbtype.Items.Add(dt.Rows[i][1].ToString());
             }
+            if (cbtype.Items.Count > 0)
+            {
+                if (controlValues != null)
+                {
+                    cbtype.SelectedItem = controlValues[0].ToString().Split(' ')[1];
+
+                }
+
+            }
             query = "select * from code_lage";
             dt = DataConnection.GetData(query);
             cbLage.Items.Clear();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                cbtype.Items.Add(dt.Rows[i][1].ToString());
+                cbLage.Items.Add(dt.Rows[i][1].ToString());
+            }
+            if (cbLage.Items.Count > 0)
+            {
+                if (controlValues != null)
+                {
+                    cbLage.SelectedItem = controlValues[1];
+                    
+                }
+
             }
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             UpdateChildGetSet = true;
-            SelectChildTypeValues = "sonnenschutz " + cbtype.SelectedValue + ", " + cbLage.SelectedValue; 
+            SelectChildTypeValues = "sonnenschutz " + cbtype.SelectedValue + "," + cbLage.SelectedValue; 
             //var myWindow = 
             Window.GetWindow(this).Close();
         }

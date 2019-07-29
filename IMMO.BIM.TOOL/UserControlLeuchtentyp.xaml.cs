@@ -44,7 +44,7 @@ namespace IMMO.BIM.TOOL
                 return selectChildValues;
             }
         }
-        public UserControlLeuchtentyp()
+        public UserControlLeuchtentyp(string[] controlValues)
         {
             InitializeComponent();
             string query = "select * from code­_leuchtentyp";
@@ -54,12 +54,28 @@ namespace IMMO.BIM.TOOL
             {
                 cbLeuchtentyp.Items.Add(dt.Rows[i][1].ToString());
             }
+            if (cbLeuchtentyp.Items.Count > 0)
+            {
+                if (controlValues != null)
+                {
+                    cbLeuchtentyp.SelectedItem = controlValues[0].ToString().Split(' ')[1];
+                }
+
+            }
             query = "select * from code_leuchtmitteltyp";
             dt = DataConnection.GetData(query);
             cbLeuchtmitteltyp.Items.Clear();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 cbLeuchtmitteltyp.Items.Add(dt.Rows[i][1].ToString());
+            }
+            if (cbLeuchtmitteltyp.Items.Count > 0)
+            {
+                if (controlValues != null)
+                {
+                    cbLeuchtmitteltyp.SelectedItem = controlValues[1];
+                }
+
             }
             query = "select * from code_montage";
             dt = DataConnection.GetData(query);
@@ -68,12 +84,21 @@ namespace IMMO.BIM.TOOL
             {
                 cbMontage.Items.Add(dt.Rows[i][1].ToString());
             }
+            if (cbMontage.Items.Count > 0)
+            {
+                if (controlValues != null)
+                {
+                    cbMontage.SelectedItem = controlValues[3];
+                    txtAnzahlleuchtmittel.Text = controlValues[2];
+                }
+
+            }
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             UpdateChildGetSet = true;
-            SelectChildTypeValues = "leuchte " + cbLeuchtentyp.SelectedValue+", "+ cbLeuchtmitteltyp.SelectedValue+", "+ txtAnzahlleuchtmittel.Text+", "+ cbMontage.SelectedValue;
+            SelectChildTypeValues = "leuchte " + cbLeuchtentyp.SelectedValue+","+ cbLeuchtmitteltyp.SelectedValue+","+ txtAnzahlleuchtmittel.Text+","+ cbMontage.SelectedValue;
             //var myWindow = 
             Window.GetWindow(this).Close();
         }

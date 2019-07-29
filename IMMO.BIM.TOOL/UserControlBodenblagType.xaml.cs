@@ -44,7 +44,7 @@ namespace IMMO.BIM.TOOL
                 return selectChildValues;
             }
         }
-        public UserControlBodenblagType()
+        public UserControlBodenblagType(string[] controlValues)
         {
             InitializeComponent();
             string query = "select * from code_bodenbelagtyp";
@@ -54,12 +54,20 @@ namespace IMMO.BIM.TOOL
             {
                 cbBodenbelagtyp.Items.Add(dt.Rows[i][1].ToString());
             }
+            if (cbBodenbelagtyp.Items.Count > 0)
+            {
+                if (controlValues != null && controlValues.Length == 2)
+                {
+                    cbBodenbelagtyp.SelectedItem = controlValues[0].ToString().Split(' ')[1];
+                    txtFlaeche.Text = controlValues[1];
+                }
+            }
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             UpdateChildGetSet = true;
-            SelectChildTypeValues = "bodenbelag, " + cbBodenbelagtyp.SelectedValue + ", " + txtFlaeche.Text;
+            SelectChildTypeValues = "bodenbelag " + cbBodenbelagtyp.SelectedValue + "," + txtFlaeche.Text;
             //var myWindow = 
             Window.GetWindow(this).Close();
         }

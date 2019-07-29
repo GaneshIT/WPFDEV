@@ -44,7 +44,7 @@ namespace IMMO.BIM.TOOL
                 return selectChildValues;
             }
         }
-        public UserControlTor()
+        public UserControlTor(string[] controlValues)
         {
             InitializeComponent();
             string query = "select * from code_tortyp";
@@ -54,12 +54,36 @@ namespace IMMO.BIM.TOOL
             {
                 cbTortyp.Items.Add(dt.Rows[i][1].ToString());
             }
+            if (cbTortyp.Items.Count > 0)
+            {
+                if (controlValues != null)
+                {
+                    cbTortyp.SelectedItem = controlValues[1];
+
+                }
+
+            }
             query = "select * from code_antrieb";
             dt = DataConnection.GetData(query);
             cbAntrieb.Items.Clear();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 cbAntrieb.Items.Add(dt.Rows[i][1].ToString());
+            }
+            if (cbTortyp.Items.Count > 0)
+            {
+                if (controlValues != null)
+                {
+                    cbTortyp.SelectedItem = controlValues[2];
+
+                }
+
+            }
+            if (controlValues != null)
+            {
+                string[] heightwidth = controlValues[0].ToString().Split(' ')[1].ToString().Split('x');
+                txtHohe.Text = heightwidth[0].ToString().Replace("(", "");
+                txtBreite.Text = heightwidth[1].ToString().Replace(")", "");                
             }
         }
 

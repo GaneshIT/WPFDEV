@@ -44,7 +44,7 @@ namespace IMMO.BIM.TOOL
                 return selectChildValues;
             }
         }
-        public UserControlTuer()
+        public UserControlTuer(string[] controlValues)
         {
             InitializeComponent();
             string query = "select * from code_tuertyp";
@@ -54,12 +54,22 @@ namespace IMMO.BIM.TOOL
             {
                 cbTürtyp.Items.Add(dt.Rows[i][1].ToString());
             }
+            if (cbTürtyp.Items.Count > 0)
+            {
+                if (controlValues != null)
+                    cbTürtyp.SelectedItem = controlValues[1];
+            }
             query = "select * from code_tuerblattmaterial";
             dt = DataConnection.GetData(query);
             cbTürblattmaterial.Items.Clear();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 cbTürblattmaterial.Items.Add(dt.Rows[i][1].ToString());
+            }
+            if (cbTürblattmaterial.Items.Count > 0)
+            {
+                if (controlValues != null)
+                    cbTürblattmaterial.SelectedItem = controlValues[2];
             }
             query = "select * from code_tuerzargenmaterial";
             dt = DataConnection.GetData(query);
@@ -68,12 +78,31 @@ namespace IMMO.BIM.TOOL
             {
                 cbTuerzargenmaterial.Items.Add(dt.Rows[i][1].ToString());
             }
+            if (cbTuerzargenmaterial.Items.Count > 0)
+            {
+                if (controlValues != null)
+                    cbTuerzargenmaterial.SelectedItem = controlValues[3];
+            }
             query = "select * from code_antrieb";
             dt = DataConnection.GetData(query);
             cbAntrieb.Items.Clear();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 cbAntrieb.Items.Add(dt.Rows[i][1].ToString());
+            }
+            if (cbTuerzargenmaterial.Items.Count > 0)
+            {
+                if (controlValues != null)
+                {
+                    cbTuerzargenmaterial.SelectedItem = controlValues[5];
+                    txtGlasflaeche.Text = controlValues[4];
+                    if (controlValues != null)
+                    {
+                        string[] heightwidth = controlValues[0].ToString().Split(' ')[1].ToString().Split('x');
+                        txtHohe.Text = heightwidth[0].ToString().Replace("(", "");
+                        txtBreite.Text = heightwidth[1].ToString().Replace(")", "");                       
+                    }
+                }
             }
         }
 

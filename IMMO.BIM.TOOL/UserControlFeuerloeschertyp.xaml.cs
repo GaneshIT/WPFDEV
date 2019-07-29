@@ -44,7 +44,7 @@ namespace IMMO.BIM.TOOL
                 return selectChildValues;
             }
         }
-        public UserControlFeuerloeschertyp()
+        public UserControlFeuerloeschertyp(string[] controlValues)
         {
             InitializeComponent();
             string query = "select * from code_feuerloeschertyp";
@@ -53,6 +53,13 @@ namespace IMMO.BIM.TOOL
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 cbFeuerloeschertyp.Items.Add(dt.Rows[i][1].ToString());
+            }
+            if (cbFeuerloeschertyp.Items.Count > 0)
+            {
+                if (controlValues != null)
+                {
+                    cbFeuerloeschertyp.SelectedItem = controlValues[0].ToString().Split(' ')[1];
+                }
             }
         }
 
