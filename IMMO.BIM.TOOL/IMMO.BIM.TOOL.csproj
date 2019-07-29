@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -53,6 +54,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Equipment.xaml.cs">
+      <DependentUpon>Equipment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlBodenblagType.xaml.cs">
+      <DependentUpon>UserControlBodenblagType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlFensterType.xaml.cs">
+      <DependentUpon>UserControlFensterType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlFeuerloeschertyp.xaml.cs">
+      <DependentUpon>UserControlFeuerloeschertyp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlGlasbauType.xaml.cs">
+      <DependentUpon>UserControlGlasbauType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlLeuchtentyp.xaml.cs">
+      <DependentUpon>UserControlLeuchtentyp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlOberlicut.xaml.cs">
+      <DependentUpon>UserControlOberlicut.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlSonnenschutz.xaml.cs">
+      <DependentUpon>UserControlSonnenschutz.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlTor.xaml.cs">
+      <DependentUpon>UserControlTor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlTuer.xaml.cs">
+      <DependentUpon>UserControlTuer.xaml</DependentUpon>
+    </Compile>
     <Page Include="AddNewBuilding.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -62,6 +93,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddNewRoom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Equipment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -102,6 +137,42 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Nutzung.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlBodenblagType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlFensterType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlFeuerloeschertyp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlGlasbauType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlLeuchtentyp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlOberlicut.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlSonnenschutz.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlTor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlTuer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

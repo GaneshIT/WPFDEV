@@ -12,24 +12,16 @@
         <Label Content="Flachetyp MAX:" HorizontalAlignment="Left" Margin="37,130,0,0" VerticalAlignment="Top"/>
         <Label Content="Nutzung MAX" HorizontalAlignment="Left" Margin="37,179,0,0" VerticalAlignment="Top"/>
         <Label Content="Bezeichnug:" HorizontalAlignment="Left" Margin="37,226,0,0" VerticalAlignment="Top"/>
-        <ComboBox Name="cbflacheist" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="172,37,0,0">
-            <ComboBoxItem Content="IST1"/>
-            <ComboBoxItem Content="IST2"/>
-            <ComboBoxItem Content="IST3"/>
-            <ComboBoxItem Content="IST4"/>
+        <ComboBox Name="cbflacheist" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="172,37,0,0" SelectionChanged="Cbflacheist_SelectionChanged">
+            
         </ComboBox>
         <ComboBox Name="cbnutzuist" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="172,88,0,0"/>
-        <ComboBox Name="cbflachemax" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="172,134,0,0">
-            <ComboBoxItem Content="Max1"/>
-            <ComboBoxItem Content="Max2"/>
-            <ComboBoxItem Content="Max3"/>
-            <ComboBoxItem Content="Max4"/>
+        <ComboBox Name="cbflachemax" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="172,134,0,0" SelectionChanged="Cbflachemax_SelectionChanged">
+            
         </ComboBox>
         <ComboBox Name="cbntzumax" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="172,183,0,0"/>
-        <ComboBox Name="cbbezei" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="172,230,0,0">
-            <ComboBoxItem Content="test"/>
-        </ComboBox>
         <Button Name="btnOk" Content="Ok" HorizontalAlignment="Left" Margin="172,292,0,0" VerticalAlignment="Top" Width="75" Click="BtnOk_Click"/>
+        <TextBox Name="txtBezeichnug" HorizontalAlignment="Left" Height="23" Margin="172,226,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
 
     </Grid>
 </Window>

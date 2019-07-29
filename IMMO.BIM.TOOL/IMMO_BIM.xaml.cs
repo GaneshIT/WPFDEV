@@ -37,32 +37,45 @@ namespace IMMO.BIM.TOOL
 
         private void BtnAddLevel_Click(object sender, RoutedEventArgs e)
         {
-            AddNewLevel newLevel = new AddNewLevel();
-            newLevel.Show();
+            if (lbDisplayBuilding.SelectedItem != null)
+            {
+                AddNewLevel newLevel = new AddNewLevel();
+                newLevel.ShowDialog();
+                if (newLevel.UpdateGetSet)
+                    lbDisplayLevels.Items.Add(newLevel.SelectLevel);
+            }
+            else
+            {
+                MessageBox.Show("Please select building");
+            }
         }
 
         private void BtnNewRoom_Click(object sender, RoutedEventArgs e)
         {
-            if (lbDisplayRooms.Items.Count>0)
+            if (lbDisplayLevels.SelectedItem!=null)
             {
-                if (lbDisplayRooms.SelectedItem != null)
-                {
-                    AddNewRoom newRoom = new AddNewRoom(lbDisplayRooms.SelectedItem.ToString());
-                    newRoom.Show();
-                }
-                else
-                    MessageBox.Show("Select room");
+                string level = lbDisplayLevels.SelectedItem.ToString();
+                string room = level.Split(':')[1];
+                AddNewRoom newRoom = new AddNewRoom(lbDisplayBuilding.SelectedItem.ToString(),lbDisplayLevels.SelectedItem.ToString(), room.ToString() + "001");
+                newRoom.Show();
             }
             else
             {
                 MessageBox.Show("Select levels");
             }
+                
         }
 
         private void BtnEditRoom_Click(object sender, RoutedEventArgs e)
         {
-            AddNewRoom newRoom = new AddNewRoom();
-            newRoom.Show();
+            if (lbDisplayRooms.SelectedItem != null)
+            {
+                AddNewRoom newRoom = new AddNewRoom(lbDisplayRooms.SelectedItem.ToString());
+                newRoom.Show();
+            }
+            else
+                MessageBox.Show("Select room");
+           
         }
 
         private void BtnDeleteRoom_Click(object sender, RoutedEventArgs e)

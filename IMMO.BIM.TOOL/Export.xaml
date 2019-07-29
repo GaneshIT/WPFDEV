@@ -8,9 +8,10 @@
         Title="Export Data" Height="450" Width="800">
     <Grid>
         <Label Content="Export Data" HorizontalAlignment="Left" Margin="289,98,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Label Content="Folder" HorizontalAlignment="Left" Margin="225,175,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="txtFolder" HorizontalAlignment="Left" Height="23" Margin="385,175,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <Button Name="btnSaveFileExport" Content="Export" HorizontalAlignment="Left" Margin="385,244,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="" HorizontalAlignment="Left" Margin="225,175,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="txtFolder" HorizontalAlignment="Left" Height="23" Margin="118,175,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="387" IsReadOnly="True" />
+        <Button Name="btnSaveFileExport" Content="Export" HorizontalAlignment="Left" Margin="289,241,0,0" VerticalAlignment="Top" Width="75" Click="BtnSaveFileExport_Click"/>
+        <Button Name="btnExport" Content="Browse" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="505,175,0,0" Height="23" Click="BtnExport_Click"/>
 
     </Grid>
 </Window>

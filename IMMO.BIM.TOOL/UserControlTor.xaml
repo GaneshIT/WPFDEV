@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="IMMO.BIM.TOOL.UserControlTor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IMMO.BIM.TOOL"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Label Content="Tortyp:" HorizontalAlignment="Left" Margin="180,23,0,0" VerticalAlignment="Top" Width="106" Height="25"/>
+        <Label Content="Höhe [cm]:" HorizontalAlignment="Left" Margin="180,65,0,0" VerticalAlignment="Top" Width="101" Height="24"/>
+        <Label Content="Breite [cm]:" HorizontalAlignment="Left" Margin="180,115,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.686,6.208" Width="106" Height="25"/>
+        <Label Content="Antrieb:" HorizontalAlignment="Left" Margin="180,164,0,0" VerticalAlignment="Top" Width="134" Height="24"/>
+        <ComboBox x:Name="cbTortyp" HorizontalAlignment="Left" Margin="399,23,0,0" VerticalAlignment="Top" Width="157" RenderTransformOrigin="0.536,0.012" Height="21"/>
+        <TextBox x:Name="txtHohe" HorizontalAlignment="Left" Height="22" Margin="399,65,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157"/>
+        <TextBox x:Name="txtBreite" HorizontalAlignment="Left" Height="22" Margin="399,115,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157"/>
+        <ComboBox x:Name="cbAntrieb" HorizontalAlignment="Left" Margin="399,164,0,0" VerticalAlignment="Top" Width="157" Height="20"/>
+        <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Margin="399,218,0,0" VerticalAlignment="Top" Width="157" Height="22" Click="BtnAdd_Click"/>
+
+    </Grid>
+</UserControl>

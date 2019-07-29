@@ -10,9 +10,8 @@
         <Label Content="Active Levels" HorizontalAlignment="Center" Margin="271,35,85.2,0" VerticalAlignment="Top" Width="439" Height="56" FontSize="20"/>
         <Label Content="ist Zwischen-Geschoss:" HorizontalAlignment="Left" Margin="168,117,0,0" VerticalAlignment="Top" Width="140"/>
         <Label Content="Level:" HorizontalAlignment="Left" Margin="168,185,0,0" VerticalAlignment="Top" Width="92"/>
-        <ComboBox Name="cbSelectYesOrNo" HorizontalAlignment="Left" Margin="341,117,0,0" VerticalAlignment="Top" Width="174">
-            <ComboBoxItem Content="Yes" />
-            <ComboBoxItem Content="No"/>
+        <ComboBox Name="cbSelectYesOrNo" HorizontalAlignment="Left" Margin="341,117,0,0" VerticalAlignment="Top" Width="174" SelectionChanged="CbSelectYesOrNo_SelectionChanged">
+            
         </ComboBox>
         <ComboBox Name="cbSelectFloor" HorizontalAlignment="Left" Margin="341,189,0,0" VerticalAlignment="Top" Width="174"/>
         <Button Name="btnActivate" Content="Activate" HorizontalAlignment="Left" Margin="341,251,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.044,0.498" Click="BtnActivate_Click"/>

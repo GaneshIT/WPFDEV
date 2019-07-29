@@ -37,29 +37,12 @@
         <CheckBox Name="chkgasabsperrsch" Content="gasabsperrsch" HorizontalAlignment="Left" Margin="471,411,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.213,1.191" Height="19" Width="191"/>
         <CheckBox Name="chkwasserabsperr" Content="wasserabsperr" HorizontalAlignment="Left" Margin="471,464,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.213,1.191" Height="19" Width="191"/>
         <CheckBox Name="chkheizungabsperr" Content="heizungabsperr" HorizontalAlignment="Left" Margin="471,506,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.213,1.191" Height="19" Width="191"/>
-        <Button Name="btnaddequipment" Content="Add Equipment" HorizontalAlignment="Left" Margin="745,41,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.272,0.415"/>
-        <Button Name="btnremoveequipment" Content="Remove Equipment" HorizontalAlignment="Left" Margin="853,41,0,0" VerticalAlignment="Top" Width="110"/>
-        <Button Name="btncopyequipment" Content="Copy Equipment" HorizontalAlignment="Left" Margin="981,41,0,0" VerticalAlignment="Top" Width="107"/>
-        <Button Name="btneditequipment" Content="Edit Equipment" HorizontalAlignment="Left" Margin="1108,41,0,0" VerticalAlignment="Top" Width="86"/>
-        <Button Name="btnsaveandclose" Content="Save and close" HorizontalAlignment="Left" Margin="745,558,0,0" VerticalAlignment="Top" Width="449"/>
-        <ListView HorizontalAlignment="Left" Height="470" Margin="747,75,0,0" VerticalAlignment="Top" Width="446" RenderTransformOrigin="0.5,0.5">
-            <ListView.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleY="0.309"/>
-                    <RotateTransform/>
-                    <TranslateTransform Y="0.27"/>
-                </TransformGroup>
-            </ListView.RenderTransform>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
-            <ListViewItem Content="test" Margin="0"/>
-            <ListViewItem Content="test" Margin="0"/>
-            <ListViewItem Content="test" Margin="0"/>
-        </ListView>
+        <Button Name="btnaddequipment" Content="Add Equipment" HorizontalAlignment="Left" Margin="745,41,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.272,0.415" Click="Btnaddequipment_Click"/>
+        <Button Name="btnremoveequipment" Content="Remove Equipment" HorizontalAlignment="Left" Margin="853,41,0,0" VerticalAlignment="Top" Width="110" Click="Btnremoveequipment_Click"/>
+        <Button Name="btncopyequipment" Content="Copy Equipment" HorizontalAlignment="Left" Margin="981,41,0,0" VerticalAlignment="Top" Width="107" Click="Btncopyequipment_Click"/>
+        <Button Name="btneditequipment" Content="Edit Equipment" HorizontalAlignment="Left" Margin="1108,41,0,0" VerticalAlignment="Top" Width="86" Click="Btneditequipment_Click"/>
+        <Button Name="btnsaveandclose" Content="Save and close" HorizontalAlignment="Left" Margin="745,558,0,0" VerticalAlignment="Top" Width="449" Click="Btnsaveandclose_Click"/>
         <Label Name="lblnutzungResult" Content="" HorizontalAlignment="Left" Margin="471,77,0,0" VerticalAlignment="Top" Height="120" Width="271"/>
+        <ListBox Name="lbEquipments" HorizontalAlignment="Left" Height="441" VerticalAlignment="Top" Width="447" Margin="747,77,0,0"/>
     </Grid>
 </Window>
