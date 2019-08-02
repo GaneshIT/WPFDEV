@@ -65,12 +65,12 @@ namespace IMMO.BIM.TOOL
                 getEquipId = null;
             AddTypes();
             cbAusstattungstyp.SelectedItem = ausstatType;
-            string query = "select * from [as_" + ausstatType + "] where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "' and id=" + equipId + "";
+            string query = "select * from [as_" + ausstatType + "] where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["CadId"] + "' and id=" + equipId + "";
             DataTable dt = DataConnection.GetData(query);
             if (dt != null && dt.Rows.Count>0)
-                Application.Current.Properties["RaumId"] = dt.Rows[0][2].ToString();
+                Application.Current.Properties["CadId"] = dt.Rows[0][2].ToString();
             else
-                Application.Current.Properties["RaumId"] = "";
+                Application.Current.Properties["CadId"] = "";
             AddChildUserControl(dt);
         }
         private void CbAusstattungstyp_SelectionChanged(object sender, SelectionChangedEventArgs e)

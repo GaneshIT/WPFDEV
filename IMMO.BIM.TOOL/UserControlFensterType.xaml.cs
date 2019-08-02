@@ -131,7 +131,7 @@ namespace IMMO.BIM.TOOL
             if (cbFenstertyp.Items.Count > 0)
             {
                 if (dtControlValues != null)
-                    cbFenstertyp.SelectedItem = dt.Rows[0][5].ToString();
+                    cbFenstertyp.SelectedItem = dtControlValues.Rows[0][5].ToString();
             }
             query = "select * from code_fensterrahmenmaterial";
             dt = DataConnection.GetData(query);
@@ -143,7 +143,7 @@ namespace IMMO.BIM.TOOL
             if (cbFensterrahmenmaterial.Items.Count > 0)
             {
                 if (dtControlValues != null)
-                    cbFenstertyp.SelectedItem = dt.Rows[0][6].ToString();
+                    cbFensterrahmenmaterial.SelectedItem = dtControlValues.Rows[0][6].ToString();
             }
             query = "select * from code_verglasung";
             dt = DataConnection.GetData(query);
@@ -155,12 +155,12 @@ namespace IMMO.BIM.TOOL
             if (cbVerglasung.Items.Count > 0)
             {
                 if (dtControlValues != null)
-                    cbFenstertyp.SelectedItem = dt.Rows[0][7].ToString();
+                    cbVerglasung.SelectedItem = dtControlValues.Rows[0][7].ToString();
             }
             if (dtControlValues != null)
             {
-                txtHohe.Text = dt.Rows[0][8].ToString();
-                txtBreite.Text = dt.Rows[0][9].ToString();
+                txtHohe.Text = dtControlValues.Rows[0][8].ToString();
+                txtBreite.Text = dtControlValues.Rows[0][9].ToString();
                 //cbFeststellanlage.SelectedItem = controlValues[4];
                 //if (controlValues[4].ToString() != "")
                 //{
@@ -176,7 +176,7 @@ namespace IMMO.BIM.TOOL
 
                 //    }
                 //}
-                txtTuernummer.Text = dt.Rows[0][11].ToString();
+                txtTuernummer.Text = dtControlValues.Rows[0][11].ToString();
             }
 
 
@@ -194,7 +194,7 @@ namespace IMMO.BIM.TOOL
                 {
                     if (dt.Rows[0][0].ToString() != "")
                         id = Convert.ToInt32(dt.Rows[0][0].ToString()) + 1;
-                    query = "insert into as_fenster values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbFenstertyp.SelectedValue + "','" + cbFensterrahmenmaterial.SelectedValue + "','" + cbVerglasung.SelectedValue + "','" + txtBreite.Text + "','" + txtHohe.Text + "'," + statusYesOrNo + ",'" + txtTuernummer.Text + "')";
+                    query = "insert into as_fenster values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["CadId"] + "'," + id + ",'','" + cbFenstertyp.SelectedValue + "','" + cbFensterrahmenmaterial.SelectedValue + "','" + cbVerglasung.SelectedValue + "','" + txtBreite.Text + "','" + txtHohe.Text + "'," + statusYesOrNo + ",'" + txtTuernummer.Text + "')";
                     msg = DataConnection.ExecuteQuery(query);
                 }
                 else if (dt != null && dt.Rows.Count >= 1)
@@ -205,7 +205,7 @@ namespace IMMO.BIM.TOOL
                         if (dt.Rows[i][0].ToString() != "")
                         {
                             id = Convert.ToInt32(dt.Rows[0][0].ToString()) + 1;
-                            query = "insert into as_fenster values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbFenstertyp.SelectedValue + "','" + cbFensterrahmenmaterial.SelectedValue + "','" + cbVerglasung.SelectedValue + "','" + txtBreite.Text + "','" + txtHohe.Text + "'," + statusYesOrNo + ",'" + txtTuernummer.Text + "')";
+                            query = "insert into as_fenster values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["CadId"] + "'," + id + ",'','" + cbFenstertyp.SelectedValue + "','" + cbFensterrahmenmaterial.SelectedValue + "','" + cbVerglasung.SelectedValue + "','" + txtBreite.Text + "','" + txtHohe.Text + "'," + statusYesOrNo + ",'" + txtTuernummer.Text + "')";
                             msg = DataConnection.ExecuteQuery(query);
                             status = 1;
                             break;
@@ -213,14 +213,14 @@ namespace IMMO.BIM.TOOL
                     }
                     if (status == 0)
                     {
-                        query = "insert into as_fenster values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbFenstertyp.SelectedValue + "','" + cbFensterrahmenmaterial.SelectedValue + "','" + cbVerglasung.SelectedValue + "','" + txtBreite.Text + "','" + txtHohe.Text + "'," + statusYesOrNo + ",'" + txtTuernummer.Text + "')";
+                        query = "insert into as_fenster values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["CadId"] + "'," + id + ",'','" + cbFenstertyp.SelectedValue + "','" + cbFensterrahmenmaterial.SelectedValue + "','" + cbVerglasung.SelectedValue + "','" + txtBreite.Text + "','" + txtHohe.Text + "'," + statusYesOrNo + ",'" + txtTuernummer.Text + "')";
                         msg = DataConnection.ExecuteQuery(query);
                     }
 
                 }
                 else
                 {
-                    query = "insert into as_fenster values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbFenstertyp.SelectedValue + "','" + cbFensterrahmenmaterial.SelectedValue + "','" + cbVerglasung.SelectedValue + "','" + txtBreite.Text + "','" + txtHohe.Text + "'," + statusYesOrNo + ",'" + txtTuernummer.Text + "')";
+                    query = "insert into as_fenster values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["CadId"] + "'," + id + ",'','" + cbFenstertyp.SelectedValue + "','" + cbFensterrahmenmaterial.SelectedValue + "','" + cbVerglasung.SelectedValue + "','" + txtBreite.Text + "','" + txtHohe.Text + "'," + statusYesOrNo + ",'" + txtTuernummer.Text + "')";
                     msg = DataConnection.ExecuteQuery(query);
                 }
                 if (msg == "Executed")

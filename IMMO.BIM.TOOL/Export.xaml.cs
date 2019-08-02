@@ -38,14 +38,14 @@ namespace IMMO.BIM.TOOL
                 string query = "select * from kl_raum";
                 DataTable dt = DataConnection.GetData(query);
                 string txt = string.Empty;
-                FileStream fileStream = new FileStream("" + folderPath + "\\file1.txt", FileMode.Create);
+                FileStream fileStream = new FileStream("" + folderPath + "\\raumbuch.txt", FileMode.Create);
                 TextWriter sw = new StreamWriter(fileStream);
 
 
                 foreach (DataColumn column in dt.Columns)
                 {
                     //Add the Header row for Text file.
-                    txt += column.ColumnName + "\t\t";
+                    txt += column.ColumnName + "\t";
                 }
 
                 //Add new line.
@@ -55,7 +55,7 @@ namespace IMMO.BIM.TOOL
                     foreach (DataColumn column in dt.Columns)
                     {
                         //Add the Data rows.
-                        txt += row[column.ColumnName].ToString() + "\t\t";
+                        txt += row[column.ColumnName].ToString() + "\t";
                     }
 
                     //Add new line.
@@ -65,7 +65,7 @@ namespace IMMO.BIM.TOOL
 
                 sw.Close();
                 fileStream.Close();
-                Process.Start(folderPath + "\\file1.txt", "notepad.exe");
+                Process.Start(folderPath + "\\raumbuch.txt", "notepad.exe");
 
                 query = "select geb_id,geschoss_id,cad_id from kl_raum";
                 dt = DataConnection.GetData(query);
@@ -73,7 +73,7 @@ namespace IMMO.BIM.TOOL
                 if(dt!=null && dt.Rows.Count > 0)
                 {
                     txt = string.Empty;
-                    fileStream = new FileStream("" + folderPath + "\\file2.txt", FileMode.Create);
+                    fileStream = new FileStream("" + folderPath + "\\ausstattungu.txt", FileMode.Create);
                     sw = new StreamWriter(fileStream);
                     string[] columns = new string[24];
                     columns[0] = "Laufende Nr";
@@ -103,7 +103,7 @@ namespace IMMO.BIM.TOOL
                     for (int i = 0; i < columns.Length; i++)
                     {
                         //Add the Header row for Text file.
-                        txt += columns[i] + "\t\t";
+                        txt += columns[i] + "\t";
                     }
 
                     //Add new line.
@@ -121,9 +121,10 @@ namespace IMMO.BIM.TOOL
                         {
                             for (int j = 0; j < dtBodenbelag.Rows.Count; j++)
                             {
-                                txt += fileRowId + "\t\t" + dt.Rows[i][0].ToString() + "\t\t" + dt.Rows[i][1].ToString() + "\t\t" + dt.Rows[i][2].ToString() + "\t\t" + "bodenbelag"+ "\t\t" + dtBodenbelag.Rows[j][5].ToString() + "\t\t" + "flaeche" + "\t\t" + dtBodenbelag.Rows[j][5].ToString();
+                                txt += fileRowId + "\t" + dt.Rows[i][0].ToString() + "\t" + dt.Rows[i][1].ToString() + "\t" + dt.Rows[i][2].ToString() + "\t" + "bodenbelag"+ "\t" + dtBodenbelag.Rows[j][5].ToString() + "\t" + "flaeche" + "\t" + dtBodenbelag.Rows[j][6].ToString();
                                 txt += "\r\n";
                                 sw.Write(txt);
+                                fileRowId = fileRowId + 1;
                                 txt = "";
                             }
                             
@@ -135,9 +136,10 @@ namespace IMMO.BIM.TOOL
                         {
                             for (int j = 0; j < dtfenster.Rows.Count; j++)
                             {
-                                txt += fileRowId + "\t\t" + dt.Rows[i][0].ToString() + "\t\t" + dt.Rows[i][1].ToString() + "\t\t" + dt.Rows[i][2].ToString() + "\t\t" + "fenster"+ "\t\t"  + dtfenster.Rows[j][5].ToString() + "\t\t" + "fensterrahmenmaterial" + "\t\t" + dtfenster.Rows[j][6].ToString() + "verglasung" + "\t\t" + dtfenster.Rows[j][7].ToString() + "breite" + "\t\t" + dtfenster.Rows[j][8].ToString() + "hoehe" + "\t\t" + dtfenster.Rows[j][9].ToString() + "feststellanlage" + "\t\t" + dtfenster.Rows[j][10].ToString() + "tuernummer" + "\t\t" + dtfenster.Rows[j][11].ToString();
+                                txt += fileRowId + "\t" + dt.Rows[i][0].ToString() + "\t" + dt.Rows[i][1].ToString() + "\t" + dt.Rows[i][2].ToString() + "\t" + "fenster"+ "\t"  + dtfenster.Rows[j][5].ToString() + "\t" + "fensterrahmenmaterial" + "\t" + dtfenster.Rows[j][6].ToString() +"\t" + "verglasung" + "\t" + dtfenster.Rows[j][7].ToString() + "\t" + "breite" + "\t" + dtfenster.Rows[j][8].ToString() + "\t" + "hoehe" + "\t" + dtfenster.Rows[j][9].ToString() + "\t" + "feststellanlage" + "\t" + dtfenster.Rows[j][10].ToString() + "\t" + "tuernummer" + "\t" + dtfenster.Rows[j][11].ToString();
                                 txt += "\r\n";
                                 sw.Write(txt);
+                                fileRowId = fileRowId + 1;
                                 txt = "";
                             }
 
@@ -149,9 +151,10 @@ namespace IMMO.BIM.TOOL
                         {
                             for (int j = 0; j < as_feuerloescher.Rows.Count; j++)
                             {
-                                txt += fileRowId + "\t\t" + dt.Rows[i][0].ToString() + "\t\t" + dt.Rows[i][1].ToString() + "\t\t" + dt.Rows[i][2].ToString() + "\t\t" + "feuerloescher" +"\t\t"+ as_feuerloescher.Rows[j][5].ToString();
+                                txt += fileRowId + "\t" + dt.Rows[i][0].ToString() + "\t" + dt.Rows[i][1].ToString() + "\t" + dt.Rows[i][2].ToString() + "\t" + "feuerloescher" +"\t"+ as_feuerloescher.Rows[j][5].ToString();
                                 txt += "\r\n";
                                 sw.Write(txt);
+                                fileRowId = fileRowId + 1;
                                 txt = "";
                             }
 
@@ -163,9 +166,10 @@ namespace IMMO.BIM.TOOL
                         {
                             for (int j = 0; j < dtglasbauelement.Rows.Count; j++)
                             {
-                                txt += fileRowId + "\t\t" + dt.Rows[i][0].ToString() + "\t\t" + dt.Rows[i][1].ToString() + "\t\t" + dt.Rows[i][2].ToString() + "\t\t" + "glasbau-element"+ "\t\t" + dtglasbauelement.Rows[j][5].ToString() + "\t\t" + "glasflaeche einseitig" + "\t\t" + dtglasbauelement.Rows[j][6].ToString() + "\t\t" + "reinigungsflaechen" + "\t\t" + dtglasbauelement.Rows[j][7].ToString();
+                                txt += fileRowId + "\t" + dt.Rows[i][0].ToString() + "\t" + dt.Rows[i][1].ToString() + "\t" + dt.Rows[i][2].ToString() + "\t" + "glasbau-element"+ "\t" + dtglasbauelement.Rows[j][5].ToString() + "\t" + "glasflaeche einseitig" + "\t" + dtglasbauelement.Rows[j][6].ToString() + "\t" + "reinigungsflaechen" + "\t" + dtglasbauelement.Rows[j][7].ToString();
                                 txt += "\r\n";
                                 sw.Write(txt);
+                                fileRowId = fileRowId + 1;
                                 txt = "";
                             }
 
@@ -177,9 +181,10 @@ namespace IMMO.BIM.TOOL
                         {
                             for (int j = 0; j < dtleuchte.Rows.Count; j++)
                             {
-                                txt += fileRowId + "\t\t" + dt.Rows[i][0].ToString() + "\t\t" + dt.Rows[i][1].ToString() + "\t\t" + dt.Rows[i][2].ToString() + "\t\t" + "leuchte" + dtleuchte.Rows[j][5].ToString() + "\t\t" + "leuchtmitteltyp" + "\t\t" + dtleuchte.Rows[j][6].ToString() + "\t\t" + "anzahl leuchtmittel" + "\t\t" + dtleuchte.Rows[j][7].ToString() + "montage" + "\t\t" + dtleuchte.Rows[j][8].ToString();
+                                txt += fileRowId + "\t" + dt.Rows[i][0].ToString() + "\t" + dt.Rows[i][1].ToString() + "\t" + dt.Rows[i][2].ToString() + "\t" + "leuchte" +"\t"+ dtleuchte.Rows[j][5].ToString() + "\t" + "leuchtmitteltyp" + "\t" + dtleuchte.Rows[j][6].ToString() + "\t" + "anzahl leuchtmittel" + "\t" + dtleuchte.Rows[j][7].ToString() +"\t"+ "montage" + "\t" + dtleuchte.Rows[j][8].ToString();
                                 txt += "\r\n";
                                 sw.Write(txt);
+                                fileRowId = fileRowId + 1;
                                 txt = "";
                             }
 
@@ -191,9 +196,10 @@ namespace IMMO.BIM.TOOL
                         {
                             for (int j = 0; j < dtoberlicht.Rows.Count; j++)
                             {
-                                txt += fileRowId + "\t\t" + dt.Rows[i][0].ToString() + "\t\t" + dt.Rows[i][1].ToString() + "\t\t" + dt.Rows[i][2].ToString() + "\t\t" + "breite" + dtoberlicht.Rows[j][5].ToString() + "\t\t" + "hoehe" + "\t\t" + dtoberlicht.Rows[j][6].ToString();
+                                txt += fileRowId + "\t" + dt.Rows[i][0].ToString() + "\t" + dt.Rows[i][1].ToString() + "\t" + dt.Rows[i][2].ToString() + "\t" + "breite" + "\t" + dtoberlicht.Rows[j][5].ToString() + "\t" + "hoehe" + "\t" + dtoberlicht.Rows[j][6].ToString();
                                 txt += "\r\n";
                                 sw.Write(txt);
+                                fileRowId = fileRowId + 1;
                                 txt = "";
                             }
 
@@ -205,9 +211,10 @@ namespace IMMO.BIM.TOOL
                         {
                             for (int j = 0; j < dtsonnenschutz.Rows.Count; j++)
                             {
-                                txt += fileRowId + "\t\t" + dt.Rows[i][0].ToString() + "\t\t" + dt.Rows[i][1].ToString() + "\t\t" + dt.Rows[i][2].ToString() + "\t\t" + "sonnenschutz" + dtsonnenschutz.Rows[j][5].ToString() + "\t\t" + "lage" + "\t\t" + dtsonnenschutz.Rows[j][6].ToString();
+                                txt += fileRowId + "\t" + dt.Rows[i][0].ToString() + "\t" + dt.Rows[i][1].ToString() + "\t" + dt.Rows[i][2].ToString() + "\t" + "sonnenschutz" + "\t" + dtsonnenschutz.Rows[j][5].ToString() + "\t" + "lage" + "\t" + dtsonnenschutz.Rows[j][6].ToString();
                                 txt += "\r\n";
                                 sw.Write(txt);
+                                fileRowId = fileRowId + 1;
                                 txt = "";
                             }
 
@@ -219,9 +226,10 @@ namespace IMMO.BIM.TOOL
                         {
                             for (int j = 0; j < dttor.Rows.Count; j++)
                             {
-                                txt += fileRowId + "\t\t" + dt.Rows[i][0].ToString() + "\t\t" + dt.Rows[i][1].ToString() + "\t\t" + dt.Rows[i][2].ToString() + "\t\t" + "tor" + dttor.Rows[j][5].ToString() + "\t\t" + "breite" + "\t\t" + dttor.Rows[j][6].ToString() + "\t\t" + "hoehe" + "\t\t" + dttor.Rows[j][7].ToString() + "\t\t" + "antrieb" + "\t\t" + dttor.Rows[j][8].ToString();
+                                txt += fileRowId + "\t" + dt.Rows[i][0].ToString() + "\t" + dt.Rows[i][1].ToString() + "\t" + dt.Rows[i][2].ToString() + "\t" + "tor" + "\t" + dttor.Rows[j][5].ToString() + "\t" + "breite" + "\t" + dttor.Rows[j][6].ToString() + "\t" + "hoehe" + "\t" + dttor.Rows[j][7].ToString() + "\t" + "antrieb" + "\t" + dttor.Rows[j][8].ToString();
                                 txt += "\r\n";
                                 sw.Write(txt);
+                                fileRowId = fileRowId + 1;
                                 txt = "";
                             }
 
@@ -233,9 +241,10 @@ namespace IMMO.BIM.TOOL
                         {
                             for (int j = 0; j < dttuer.Rows.Count; j++)
                             {
-                                txt += fileRowId + "\t\t" + dt.Rows[i][0].ToString() + "\t\t" + dt.Rows[i][1].ToString() + "\t\t" + dt.Rows[i][2].ToString() + "\t\t" + "tuer" + "\t\t" + dttuer.Rows[j][5].ToString() + "\t\t" + "türblattmaterial" + "\t\t" + dttuer.Rows[j][6].ToString() + "hoehe" + "\t\t" + dttuer.Rows[j][7].ToString() + "breite" + "\t\t" + dttuer.Rows[j][8].ToString() + "glasflaeche einseitig" + "\t\t" + dttuer.Rows[j][9].ToString() + "antrieb" + "\t\t" + dttuer.Rows[j][10].ToString();
+                                txt += fileRowId + "\t" + dt.Rows[i][0].ToString() + "\t" + dt.Rows[i][1].ToString() + "\t" + dt.Rows[i][2].ToString() + "\t" + "tuer" + "\t" + dttuer.Rows[j][5].ToString() + "\t" + "türblattmaterial" + "\t" + dttuer.Rows[j][6].ToString() + "\t" + "hoehe" + "\t" + dttuer.Rows[j][7].ToString() + "\t" + "breite" + "\t" + dttuer.Rows[j][8].ToString() + "\t" + "glasflaeche einseitig" + "\t" + dttuer.Rows[j][9].ToString() + "\t" + "antrieb" + "\t" + dttuer.Rows[j][10].ToString();
                                 txt += "\r\n";
                                 sw.Write(txt);
+                                fileRowId = fileRowId + 1;
                                 txt = "";
                             }
 
@@ -243,7 +252,7 @@ namespace IMMO.BIM.TOOL
                     }
                     sw.Close();
                     fileStream.Close();
-                    Process.Start(folderPath + "\\file2.txt", "notepad.exe");
+                    Process.Start(folderPath + "\\ausstattungu.txt", "notepad.exe");
                 }
                 //File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\file2.txt", "" + folderPath + "\\file2.txt");
                 //Process.Start(folderPath + "\\file1.txt", "notepad.exe");

@@ -78,7 +78,7 @@ namespace IMMO.BIM.TOOL
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     id = Convert.ToInt32(dt.Rows[0][0].ToString()) + 1;
-                    query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
+                    query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["CadId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
                     msg = DataConnection.ExecuteQuery(query);
                 }
                 else if (dt != null && dt.Rows.Count >= 1)
@@ -89,7 +89,7 @@ namespace IMMO.BIM.TOOL
                         if (dt.Rows[i][0].ToString() != "")
                         {
                             id = Convert.ToInt32(dt.Rows[0][0].ToString()) + 1;
-                            query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
+                            query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["CadId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
                             msg = DataConnection.ExecuteQuery(query);
                             status = 1;
                             break;
@@ -97,14 +97,14 @@ namespace IMMO.BIM.TOOL
                     }
                     if (status == 0)
                     {
-                        query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
+                        query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["CadId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
                         msg = DataConnection.ExecuteQuery(query);
                     }
 
                 }
                 else
                 {
-                    query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
+                    query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["CadId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
                     msg = DataConnection.ExecuteQuery(query);
                 }
                 if (msg == "Executed")

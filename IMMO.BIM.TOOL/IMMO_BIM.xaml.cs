@@ -113,6 +113,7 @@ namespace IMMO.BIM.TOOL
                         string[] levels = level.Split(':');
                         if (levels.Length == 2)
                         {
+                            Application.Current.Properties["CadId"] = levels[1] + getRoom;
                             AddNewRoom newRoom = new AddNewRoom(lbDisplayBuilding.SelectedItem.ToString(), lbDisplayLevels.SelectedItem.ToString(), levels[1] + getRoom,"NewRoom");
                             newRoom.ShowDialog();
                             info.Content = AddNewRoom.Info;
@@ -126,6 +127,7 @@ namespace IMMO.BIM.TOOL
                     string[] levels = level.Split(':');
                     if (levels.Length == 2)
                     {
+                        Application.Current.Properties["CadId"] = levels[1] + "000";
                         AddNewRoom newRoom = new AddNewRoom(lbDisplayBuilding.SelectedItem.ToString(), lbDisplayLevels.SelectedItem.ToString(), levels[1] + "000","NewRoom");
                         newRoom.ShowDialog();
                         info.Content = AddNewRoom.Info;
@@ -258,7 +260,7 @@ namespace IMMO.BIM.TOOL
                 DataTable dt = DataConnection.GetData(query);
                 if(dt!=null && dt.Rows.Count > 0)
                 {
-                    info.Content = "Raum-Nr:" + dt.Rows[0][4].ToString() + "\n" + "Flaeche:" + dt.Rows[0][8].ToString() + "\n" + "Lichte Hohe:" + dt.Rows[0][9].ToString() + "\n" + "Anz. A.P:" + dt.Rows[0][10].ToString() + "\n" + "Anz. M.A:" + dt.Rows[0][11].ToString() + "\n" + "zustand sch:" + dt.Rows[0][12].ToString() + "\n" + "Bemerkung:" + dt.Rows[0][13].ToString() + "\n" + "Umfang [m]:" + dt.Rows[0][14].ToString() + "\n" + "Anz. Heizho:" + dt.Rows[0][16].ToString() + "\n" + "Anz. Patchsc:" + dt.Rows[0][18].ToString() + "\n" + "Bezeichnug:" + dt.Rows[0][5].ToString() + "\n" + "MAX:" + dt.Rows[0][6].ToString() + "\n" + "IST:" + dt.Rows[0][7].ToString();
+                    info.Content = "Raum-Nr:" + dt.Rows[0][4].ToString() + "\n" + "Flaeche:" + dt.Rows[0][8].ToString() + " m\u00b2" + "\n" + "Lichte Hohe:" + dt.Rows[0][9].ToString() + " m"+"\n" + "Anz. A.P:" + dt.Rows[0][10].ToString() + "\n" + "Anz. M.A:" + dt.Rows[0][11].ToString() + "\n" + "zustand sch:" + dt.Rows[0][12].ToString() + "\n" + "Bemerkung:" + dt.Rows[0][13].ToString() + "\n" + "Umfang [m]:" + dt.Rows[0][14].ToString() + " m"+"\n" + "Anz. Heizho:" + dt.Rows[0][16].ToString() + "\n" + "Anz. Patchsc:" + dt.Rows[0][18].ToString() + "\n" + "Bezeichnug:" + dt.Rows[0][5].ToString() + "\n" + "MAX:" + dt.Rows[0][6].ToString() + "\n" + "IST:" + dt.Rows[0][7].ToString();
                 }
                 else
                 {
