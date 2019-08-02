@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -23,26 +24,109 @@ namespace IMMO.BIM.TOOL
         public string Building { get; set; }
         public string CadId { get; set; }
         public string Level { get; set; }
+        public static string Raum_Id { get; set; }
         public string Bezeichnug { get; set; }
         public string Max { get; set; }
         public string IST { get; set; }
+        private static string RoomAddOrEdit { get; set; }
+        private static string saveStatus { get; set; }
+        private static int EditRoomId { get; set; }
+
+        public static string Info { get; set; }
         public AddNewRoom()
         {
-            InitializeComponent(); cbzustand.Items.Clear();
+            InitializeComponent();
+            Application.Current.Properties["CopyRowStatus"] = "No";
+            cbzustand.Items.Clear();
             cbzustand.Items.Add("neuwertig");
             cbzustand.Items.Add("in Ordnung");
             cbzustand.Items.Add("renovierungsbedürftig");
         }
-        public AddNewRoom(string cadId)
+        public AddNewRoom(string cadId,DataTable dt, string roomAddOrEdit)
         {
             InitializeComponent();
-
+            Application.Current.Properties["CopyRowStatus"] = "No";
+            RoomAddOrEdit = roomAddOrEdit;
+            cbzustand.Items.Clear();
+            cbzustand.Items.Add("neuwertig");
+            cbzustand.Items.Add("in Ordnung");
+            cbzustand.Items.Add("renovierungsbedürftig");
             this.Title = "IMMO BIM Raum CAD-ID: " + cadId;
+
+            if(dt!=null && dt.Rows.Count > 0)
+            {
+                EditRoomId =Convert.ToInt32(dt.Rows[0][0].ToString());
+                txtraum.Text = dt.Rows[0][4].ToString();
+                Application.Current.Properties["RaumId"] = txtraum.Text;
+                lblnutzungResult.Content = "IST: " + dt.Rows[0][7].ToString() + "\n" + "MAX: " + dt.Rows[0][6].ToString() + "\n" + "Beziechnung: " + dt.Rows[0][5].ToString();
+                Bezeichnug = dt.Rows[0][5].ToString();
+                Max = dt.Rows[0][6].ToString();
+                IST = dt.Rows[0][7].ToString();
+                txtflaeche.Text = dt.Rows[0][8].ToString();
+                txtLichte.Text = dt.Rows[0][9].ToString();
+                txtAnzap.Text = dt.Rows[0][10].ToString();
+                txtAnzma.Text = dt.Rows[0][11].ToString();
+                cbzustand.SelectedItem = dt.Rows[0][12].ToString();
+                txtbemerku.Text = dt.Rows[0][13].ToString();
+                txtumfang.Text = dt.Rows[0][14].ToString();
+                chkschukostdose.IsChecked = Convert.ToBoolean(dt.Rows[0][15].ToString());
+                txtanzheizho.Text= dt.Rows[0][16].ToString();
+                chktelnetzdose.IsChecked = Convert.ToBoolean(dt.Rows[0][17].ToString());
+                txtanzpatchsc.Text = dt.Rows[0][18].ToString();
+                chksprinkler.IsChecked = Convert.ToBoolean(dt.Rows[0][19].ToString());
+                chkgasabsperrsch.IsChecked = Convert.ToBoolean(dt.Rows[0][20].ToString());
+                chkwasserabsperr.IsChecked = Convert.ToBoolean(dt.Rows[0][21].ToString());
+                chkheizungabsperr.IsChecked = Convert.ToBoolean(dt.Rows[0][22].ToString());
+                chkHydrant.IsChecked = Convert.ToBoolean(dt.Rows[0][23].ToString());
+                lbEquipments.Items.Clear();
+                string query = "select * from as_bodenbelag where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                dt= DataConnection.GetData(query);
+                if (dt != null && dt.Rows.Count > 0)
+                    lbEquipments.Items.Add("EquipId " + dt.Rows[0][3].ToString() + ": " + "bodenbelag " + dt.Rows[0][5].ToString() + "," + dt.Rows[0][6].ToString());
+                query = "select * from as_fenster where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                dt = DataConnection.GetData(query);
+                if (dt != null && dt.Rows.Count > 0)
+                    lbEquipments.Items.Add("EquipId " + dt.Rows[0][3].ToString() + ": " + "fenster" + " (" + dt.Rows[0][8].ToString() + "x" + dt.Rows[0][9].ToString() + ")," + dt.Rows[0][5].ToString() + "," + dt.Rows[0][6].ToString() + "," + dt.Rows[0][7].ToString() + "," + dt.Rows[0][10].ToString() + "," + dt.Rows[0][11].ToString());
+                query = "select * from as_feuerloescher where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                dt = DataConnection.GetData(query);
+                if (dt != null && dt.Rows.Count > 0)
+                    lbEquipments.Items.Add("EquipId " + dt.Rows[0][3].ToString() + ": " + "feuerloescher " + dt.Rows[0][5].ToString());
+                query = "select * from [as_glasbau-element] where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                dt = DataConnection.GetData(query);
+                if (dt != null && dt.Rows.Count > 0)
+                    lbEquipments.Items.Add("EquipId " + dt.Rows[0][3].ToString() + ": " + "glasbau-element " + dt.Rows[0][5].ToString() + "," + dt.Rows[0][6].ToString() + "," + dt.Rows[0][7].ToString());
+                query = "select * from as_leuchte where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                dt = DataConnection.GetData(query);
+                if (dt != null && dt.Rows.Count > 0)
+                    lbEquipments.Items.Add("EquipId " + dt.Rows[0][3].ToString() + ": " + "leuchte " + dt.Rows[0][5].ToString() + "," + dt.Rows[0][6].ToString() + "," + dt.Rows[0][7].ToString() + "," + dt.Rows[0][8].ToString());
+                query = "select * from as_oberlicht where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                dt = DataConnection.GetData(query);
+                if (dt != null && dt.Rows.Count > 0)
+                    lbEquipments.Items.Add("EquipId " + dt.Rows[0][3].ToString() + ": " + "oberlicht " + "(" + dt.Rows[0][7].ToString() + "x" + dt.Rows[0][6].ToString() + ")");
+                query = "select * from as_sonnenschutz where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                dt = DataConnection.GetData(query);
+                if (dt != null && dt.Rows.Count > 0)
+                    lbEquipments.Items.Add("EquipId " + dt.Rows[0][3].ToString() + ": " + "sonnenschutz " + dt.Rows[0][5].ToString() + "," + dt.Rows[0][6].ToString());
+                query = "select * from as_tor where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                dt = DataConnection.GetData(query);
+                if (dt != null && dt.Rows.Count > 0)
+                    lbEquipments.Items.Add("EquipId " + dt.Rows[0][3].ToString() + ": " + "tor" + " (" + dt.Rows[0][7].ToString() + "x" + dt.Rows[0][6].ToString() + ")," + dt.Rows[0][5].ToString() + "," + dt.Rows[0][8].ToString());
+                query = "select * from as_tuer where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                dt = DataConnection.GetData(query);
+                if (dt != null && dt.Rows.Count > 0)
+                    lbEquipments.Items.Add("EquipId " + dt.Rows[0][3].ToString() + ": " + "tuer" + " (" + dt.Rows[0][7].ToString() + "x" + dt.Rows[0][8].ToString() + ")," + dt.Rows[0][5].ToString() + "," + dt.Rows[0][6].ToString() + "," + dt.Rows[0][9].ToString() + "," + dt.Rows[0][10].ToString() + "," + dt.Rows[0][11].ToString());
+
+            }
         }
-        public AddNewRoom(string buildng,string level, string cadId)
+        public AddNewRoom(string buildng, string level, string cadId, string roomAddOrEdit)
         {
             InitializeComponent();
-
+            Application.Current.Properties["CopyRowStatus"] = "No";
+            RoomAddOrEdit = roomAddOrEdit;
+            cbzustand.Items.Clear();
+            cbzustand.Items.Add("neuwertig");
+            cbzustand.Items.Add("in Ordnung");
+            cbzustand.Items.Add("renovierungsbedürftig");
             this.Title = "IMMO BIM Raum CAD-ID: " + cadId;
             Level = level;
             Building = buildng;
@@ -84,67 +168,100 @@ namespace IMMO.BIM.TOOL
                 telnetzdose = "Y";
             if (chkwasserabsperr.IsChecked == true)
                 wasserabsperr = "Y";
-            int id = 1;
-            string query= "select top 1 id from kl_raum order by id desc";
-            DataTable dt = DataConnection.GetData(query);
-            if(dt!=null && dt.Rows.Count > 0)
+            if (EditRoomId == 0)
             {
-                id = Int32.Parse(dt.Rows[0][0].ToString()) + 1;
+                int id = 1;
+                string query = "select top 1 id from kl_raum order by id desc";
+                DataTable dt = DataConnection.GetData(query);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    if (dt.Rows[0][0].ToString() != "")
+                        id = Int32.Parse(dt.Rows[0][0].ToString()) + 1;
+                }
+                query = "insert into kl_raum values(" + id + "," + Building + ",'" + Level + "','" + CadId + "','" + txtraum.Text + "','" + Bezeichnug + "','" + Max + "','" + IST + "'," + txtflaeche.Text + "," + txtLichte.Text + "," + txtAnzap.Text + "," + txtAnzma.Text + ",'" + cbzustand.SelectionBoxItem + "','" + txtbemerku.Text + "'," + txtumfang.Text + "," + chkschukostdose.IsChecked + "," + txtanzheizho.Text + "," + chktelnetzdose.IsChecked + "," + txtanzpatchsc.Text + "," + chksprinkler.IsChecked + "," + chkgasabsperrsch.IsChecked + "," + chkwasserabsperr.IsChecked + "," + chkheizungabsperr.IsChecked + "," + chkHydrant.IsChecked + ")";
+                string msg = DataConnection.ExecuteQuery(query);
+                if (msg == "Executed")
+                {
+                    RoomAddOrEdit = "";
+                       saveStatus = "yes";
+                    MessageBox.Show("Saved Successfully");
+                    string txt = string.Empty;
+                    FileStream fileStream = new FileStream("" + AppDomain.CurrentDomain.BaseDirectory + "\\file2.txt", FileMode.Create);
+                    TextWriter sw = new StreamWriter(fileStream);
+                    string[] columns = new string[24];
+                    columns[0] = "Laufende Nr";
+                    columns[1] = "Gebäude";
+                    columns[2] = "Geschoss";
+                    columns[3] = "CAD-ID";
+                    columns[4] = "Ausstattungstyp";
+                    columns[5] = "Att1";
+                    columns[6] = "Att_Typ2";
+                    columns[7] = "Att2";
+                    columns[8] = "Att_Typ3";
+                    columns[9] = "Att3";
+                    columns[10] = "Att_Typ4";
+                    columns[11] = "Att4";
+                    columns[12] = "Att_Typ5";
+                    columns[13] = "Att5";
+                    columns[14] = "Att_Typ6";
+                    columns[15] = "Att6";
+                    columns[16] = "Att_Typ7";
+                    columns[17] = "Att7";
+                    columns[18] = "Att_Typ8";
+                    columns[19] = "Att8";
+                    columns[20] = "Att_Typ9";
+                    columns[21] = "Att9";
+                    columns[22] = "Att_Typ10";
+                    columns[23] = "Att10";
+                    for (int i = 0; i < columns.Length; i++)
+                    {
+                        //Add the Header row for Text file.
+                        txt += columns[i] + "\t\t";
+                    }
+
+                    //Add new line.
+                    txt += "\r\n";
+                    //foreach (DataRow row in dt.Rows)
+                    //{
+                    //    foreach (DataColumn column in dt.Columns)
+                    //    {
+                    //        //Add the Data rows.
+                    //        txt += row[column.ColumnName].ToString() + "\t\t";
+                    //    }
+
+                    //    //Add new line.
+                    //    txt += "\r\n";
+                    //}
+                    sw.Write(txt);
+
+                    sw.Close();
+                    fileStream.Close();
+                    Info = "Raum-Nr:" + txtraum.Text + "\n" + "Flaeche:" + txtflaeche.Text + "\n" + "Lichte Hohe:" + txtLichte.Text + "\n" + "Anz. A.P:" + txtAnzap.Text + "\n" + "Anz. M.A:" + txtAnzma.Text + "\n" + "zustand sch:" + cbzustand.SelectedValue + "\n" + "Bemerkung:" + txtbemerku.Text + "\n" + "Umfang [m]:" + txtumfang.Text + "\n" + "Anz. Heizho:" + txtanzheizho.Text + "\n" + "Anz. Patchsc:" + txtanzpatchsc.Text + "\n" + "Bezeichnug:" + Bezeichnug+"\n"+"MAX:"+Max +"\n"+"IST:"+IST;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter correct input fields");
+                }
             }
-            query = "insert into kl_raum values("+id+",'"+Building+"','"+Level+"','"+CadId+"','"+txtraum.Text+"','"+Bezeichnug+"','"+Max+"','"+IST+"',"+txtflaeche.Text+","+txtLichte.Text+","+txtAnzap.Text+","+txtAnzma.Text+",'"+ cbzustand.SelectionBoxItem+ "','"+txtbemerku.Text+"',"+txtumfang.Text+","+chkschukostdose.IsChecked + ","+txtanzheizho.Text+","+chktelnetzdose.IsChecked +","+txtanzpatchsc.Text+","+chksprinkler.IsChecked +","+chkgasabsperrsch.IsChecked+","+chkwasserabsperr.IsChecked+","+chkheizungabsperr.IsChecked+","+chkHydrant.IsChecked+")";
-            string msg = DataConnection.ExecuteQuery(query);
-            MessageBox.Show("Saved Successfully");
-            string txt = string.Empty;
-            FileStream fileStream = new FileStream("" + AppDomain.CurrentDomain.BaseDirectory + "\\file2.txt", FileMode.Create);
-            TextWriter sw = new StreamWriter(fileStream);
-            string[] columns = new string[24];
-            columns[0] = "Laufende Nr";
-            columns[1] = "Gebäude";
-            columns[2] = "Geschoss";
-            columns[3] = "CAD-ID";
-            columns[4] = "Ausstattungstyp";
-            columns[5] = "Att1";
-            columns[6] = "Att_Typ2";
-            columns[7] = "Att2";
-            columns[8] = "Att_Typ3";
-            columns[9] = "Att3";
-            columns[10] = "Att_Typ4";
-            columns[11] = "Att4";
-            columns[12] = "Att_Typ5";
-            columns[13] = "Att5";
-            columns[14] = "Att_Typ6";
-            columns[15] = "Att6";
-            columns[16] = "Att_Typ7";
-            columns[17] = "Att7";
-            columns[18] = "Att_Typ8";
-            columns[19] = "Att8";
-            columns[20] = "Att_Typ9";
-            columns[21] = "Att9";
-            columns[22] = "Att_Typ10";
-            columns[23] = "Att10";
-            for (int i = 0; i < columns.Length; i++)
+            else
             {
-                //Add the Header row for Text file.
-                txt += columns[i] + "\t\t";
+                string query = "update kl_raum set raumnummer='" + txtraum.Text + "' , raumbezeichnung='" + Bezeichnug + "' , DIN277_max='" + Max + "' , DIN277_ist='" + IST + "' , raumflaeche=" + txtflaeche.Text + " , lichte_raumhoehe=" + txtLichte.Text + " , anzahl_arbeitsplaetze=" + txtAnzap.Text + " , anzahl_mitarbeiter=" + txtAnzma.Text + " ,  bemerkung='" + txtbemerku.Text + "' , umfang=" + txtumfang.Text + " , schukosteckdose=" + chkschukostdose.IsChecked + " , anzahl_heizkoerper=" + txtanzheizho.Text + " , telefon_netzwerkdose=" + chktelnetzdose.IsChecked + " , anzahl_patschraenke=" + txtanzpatchsc.Text + " , sprinkler=" + chksprinkler.IsChecked + " , gasabsperrschieber=" + chkgasabsperrsch.IsChecked + " , wasserabsperrschieber=" + chkwasserabsperr.IsChecked + " , heizungsabsperrschieber=" + chkheizungabsperr.IsChecked + " , hydrant=" + chkHydrant.IsChecked + " where id=" + EditRoomId + "";
+                string msg = DataConnection.ExecuteQuery(query);
+                if (msg == "Executed")
+                {
+                    RoomAddOrEdit = "";
+                       saveStatus = "yes";
+                    MessageBox.Show("Saved Successfully");
+                    Info = "Raum-Nr:" + txtraum.Text + "\n" + "Flaeche:" + txtflaeche.Text + "\n" + "Lichte Hohe:" + txtLichte.Text + "\n" + "Anz. A.P:" + txtAnzap.Text + "\n" + "Anz. M.A:" + txtAnzma.Text + "\n" + "zustand sch:" + cbzustand.SelectedValue + "\n" + "Bemerkung:" + txtbemerku.Text + "\n" + "Umfang [m]:" + txtumfang.Text + "\n" + "Anz. Heizho:" + txtanzheizho.Text + "\n" + "Anz. Patchsc:" + txtanzpatchsc.Text + "\n" + "Bezeichnug:" + Bezeichnug + "\n" + "MAX:" + Max + "\n" + "IST:" + IST;
+                    this.Close();
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Please enter correct input fields");
+                }
             }
-
-            //Add new line.
-            txt += "\r\n";
-            //foreach (DataRow row in dt.Rows)
-            //{
-            //    foreach (DataColumn column in dt.Columns)
-            //    {
-            //        //Add the Data rows.
-            //        txt += row[column.ColumnName].ToString() + "\t\t";
-            //    }
-
-            //    //Add new line.
-            //    txt += "\r\n";
-            //}
-            sw.Write(txt);
-
-            sw.Close();
-            fileStream.Close();
         }
 
         private void Btnaddequipment_Click(object sender, RoutedEventArgs e)
@@ -152,8 +269,8 @@ namespace IMMO.BIM.TOOL
             Equipment equipment = new Equipment();
             equipment.ShowDialog();
             //UserControlFensterType u = new UserControlFensterType();
-            
-            if(UserControlFensterType.UpdateChildGetSet)
+
+            if (UserControlFensterType.UpdateChildGetSet)
             {
                 lbEquipments.Items.Add(UserControlFensterType.SelectChildTypeValues);
                 UserControlFensterType.UpdateChildGetSet = false;
@@ -170,8 +287,8 @@ namespace IMMO.BIM.TOOL
             }
             else if (UserControlGlasbauType.UpdateChildGetSet)
             {
-                lbEquipments.Items.Add(UserControlFeuerloeschertyp.SelectChildTypeValues);
-                UserControlFeuerloeschertyp.UpdateChildGetSet = false;
+                lbEquipments.Items.Add(UserControlGlasbauType.SelectChildTypeValues);
+                UserControlGlasbauType.UpdateChildGetSet = false;
             }
             else if (UserControlLeuchtentyp.UpdateChildGetSet)
             {
@@ -198,87 +315,157 @@ namespace IMMO.BIM.TOOL
                 lbEquipments.Items.Add(UserControlTuer.SelectChildTypeValues);
                 UserControlTuer.UpdateChildGetSet = false;
             }
+
+            Application.Current.Properties["RaumId"] = txtraum.Text;
         }
 
         private void Btneditequipment_Click(object sender, RoutedEventArgs e)
         {
-            if (lbEquipments.Items.Count > 0)
-            {
-                int index = lbEquipments.SelectedIndex;
-                string[] controlValues = null;
-                string[] type = lbEquipments.SelectedItem.ToString().Split(' ');
-                if (type.Length >= 2)
-                {
-                    controlValues = type[1].ToString().Split(',');
-                }
-                Equipment equipment = new Equipment(type[0], lbEquipments.SelectedItem.ToString().Split(','));
-                equipment.ShowDialog();
-                if (UserControlFensterType.UpdateChildGetSet)
-                {
-                    lbEquipments.Items.RemoveAt(index);
-                    lbEquipments.Items.Add(UserControlFensterType.SelectChildTypeValues);
-                    UserControlFensterType.UpdateChildGetSet = false;
-                }
-                else if (UserControlBodenblagType.UpdateChildGetSet)
-                {
-                    lbEquipments.Items.RemoveAt(index);
-                    lbEquipments.Items.Add(UserControlBodenblagType.SelectChildTypeValues);
-                    UserControlBodenblagType.UpdateChildGetSet = false;
-                }
-                else if (UserControlFeuerloeschertyp.UpdateChildGetSet)
-                {
-                    lbEquipments.Items.RemoveAt(index);
-                    lbEquipments.Items.Add(UserControlFeuerloeschertyp.SelectChildTypeValues);
-                    UserControlFeuerloeschertyp.UpdateChildGetSet = false;
-                }
-                else if (UserControlGlasbauType.UpdateChildGetSet)
-                {
-                    lbEquipments.Items.RemoveAt(index);
-                    lbEquipments.Items.Add(UserControlFeuerloeschertyp.SelectChildTypeValues);
-                    UserControlFeuerloeschertyp.UpdateChildGetSet = false;
-                }
-                else if (UserControlLeuchtentyp.UpdateChildGetSet)
-                {lbEquipments.Items.RemoveAt(index);
-                    lbEquipments.Items.Add(UserControlLeuchtentyp.SelectChildTypeValues);
-                    UserControlLeuchtentyp.UpdateChildGetSet = false;
-                }
-                else if (UserControlOberlicut.UpdateChildGetSet)
-                {
-                    lbEquipments.Items.RemoveAt(index);
-                    lbEquipments.Items.Add(UserControlOberlicut.SelectChildTypeValues);
-                    UserControlOberlicut.UpdateChildGetSet = false;
-                }
-                else if (UserControlSonnenschutz.UpdateChildGetSet)
-                {
-                    lbEquipments.Items.RemoveAt(index);
-                    lbEquipments.Items.Add(UserControlSonnenschutz.SelectChildTypeValues);
-                    UserControlSonnenschutz.UpdateChildGetSet = false;
-                }
-                else if (UserControlTor.UpdateChildGetSet)
-                {
-                    lbEquipments.Items.RemoveAt(index);
-                    lbEquipments.Items.Add(UserControlTor.SelectChildTypeValues);
-                    UserControlTor.UpdateChildGetSet = false;
-                }
-                else if (UserControlTuer.UpdateChildGetSet)
-                {
-                    lbEquipments.Items.RemoveAt(index);
-                    lbEquipments.Items.Add(UserControlTuer.SelectChildTypeValues);
-                    UserControlTuer.UpdateChildGetSet = false;
-                }
-            }
+            GetRow();
         }
 
         private void Btnremoveequipment_Click(object sender, RoutedEventArgs e)
         {
             if (lbEquipments.Items.Count > 0)
-                lbEquipments.Items.RemoveAt(lbEquipments.SelectedIndex);
+                if (lbEquipments.SelectedValue != null || lbEquipments.SelectedValue.ToString() != "")
+                {
+                    string[] type = Regex.Split(lbEquipments.SelectedItem.ToString(), ": ");
+                    if (type.Length > 1)
+                    {
+                        string table = "as_" + type[1].ToString().Split(' ')[0];
+                        MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure you want to delete?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
+                        if (messageBoxResult == MessageBoxResult.Yes)
+                        {
+                            string msg = EquipmentData.DeleteEquipment(table, type[0].ToString().Split(' ')[1]);
+                            if (msg == "Executed")
+                                lbEquipments.Items.RemoveAt(lbEquipments.SelectedIndex);
+                        }
+                    }
+                }
         }
 
         private void Btncopyequipment_Click(object sender, RoutedEventArgs e)
         {
             if (lbEquipments.Items.Count > 0)
-                lbEquipments.Items.Add(lbEquipments.SelectedItem);
+            {
+                Application.Current.Properties["CopyRowStatus"] = "Yes";
+                GetRow();
+                //lbEquipments.Items.Add(lbEquipments.SelectedItem);
+            }
+        }
+
+        private void GetRow()
+        {
+            if (lbEquipments.Items.Count > 0)
+            {
+                int index = lbEquipments.SelectedIndex;
+                string[] controlValues = null;
+                string[] type = Regex.Split(lbEquipments.SelectedItem.ToString(), ": ");// lbEquipments.SelectedItem.ToString().Split(' ');
+                if (type.Length >= 2)
+                {
+                    Application.Current.Properties["EquipId"] = type[0].ToString().Split(' ')[1];
+                    controlValues = type[1].ToString().Split(',');
+                    Equipment equipment = new Equipment(type[0].ToString().Split(' ')[1], type[1].ToString().Split(' ')[0]);
+                    equipment.ShowDialog();
+                    if (Application.Current.Properties["CopyRowStatus"].ToString() == "No")
+                        lbEquipments.Items.RemoveAt(index);
+                    if (UserControlFensterType.UpdateChildGetSet)
+                    {
+                        //lbEquipments.Items.RemoveAt(index);
+                        lbEquipments.Items.Add(UserControlFensterType.SelectChildTypeValues);
+                        UserControlFensterType.UpdateChildGetSet = false;
+                    }
+                    else if (UserControlBodenblagType.UpdateChildGetSet)
+                    {
+                        //lbEquipments.Items.RemoveAt(index);
+                        lbEquipments.Items.Add(UserControlBodenblagType.SelectChildTypeValues);
+                        UserControlBodenblagType.UpdateChildGetSet = false;
+                    }
+                    else if (UserControlFeuerloeschertyp.UpdateChildGetSet)
+                    {
+                        //lbEquipments.Items.RemoveAt(index);
+                        lbEquipments.Items.Add(UserControlFeuerloeschertyp.SelectChildTypeValues);
+                        UserControlFeuerloeschertyp.UpdateChildGetSet = false;
+                    }
+                    else if (UserControlGlasbauType.UpdateChildGetSet)
+                    {
+                        //lbEquipments.Items.RemoveAt(index);
+                        lbEquipments.Items.Add(UserControlGlasbauType.SelectChildTypeValues);
+                        UserControlFeuerloeschertyp.UpdateChildGetSet = false;
+                    }
+                    else if (UserControlLeuchtentyp.UpdateChildGetSet)
+                    {
+                        //lbEquipments.Items.RemoveAt(index);
+                        lbEquipments.Items.Add(UserControlLeuchtentyp.SelectChildTypeValues);
+                        UserControlLeuchtentyp.UpdateChildGetSet = false;
+                    }
+                    else if (UserControlOberlicut.UpdateChildGetSet)
+                    {
+                        //lbEquipments.Items.RemoveAt(index);
+                        lbEquipments.Items.Add(UserControlOberlicut.SelectChildTypeValues);
+                        UserControlOberlicut.UpdateChildGetSet = false;
+                    }
+                    else if (UserControlSonnenschutz.UpdateChildGetSet)
+                    {
+                        //lbEquipments.Items.RemoveAt(index);
+                        lbEquipments.Items.Add(UserControlSonnenschutz.SelectChildTypeValues);
+                        UserControlSonnenschutz.UpdateChildGetSet = false;
+                    }
+                    else if (UserControlTor.UpdateChildGetSet)
+                    {
+                        //lbEquipments.Items.RemoveAt(index);
+                        lbEquipments.Items.Add(UserControlTor.SelectChildTypeValues);
+                        UserControlTor.UpdateChildGetSet = false;
+                    }
+                    else if (UserControlTuer.UpdateChildGetSet)
+                    {
+                        //lbEquipments.Items.RemoveAt(index);
+                        lbEquipments.Items.Add(UserControlTuer.SelectChildTypeValues);
+                        UserControlTuer.UpdateChildGetSet = false;
+                    }
+                }
+
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (RoomAddOrEdit == "NewRoom")
+            {
+                string msg = " Are you sure want to close without saving?";
+                MessageBoxResult result =
+                  MessageBox.Show(
+                    msg,
+                    "",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+                if (result == MessageBoxResult.No)
+                {
+                    // If user doesn't want to close, cancel closure
+                    e.Cancel = true;
+                }
+                else
+                {
+                    string query = "delete from as_bodenbelag where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                    DataConnection.ExecuteQuery(query);
+                    query = "delete from as_fenster where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                    DataConnection.ExecuteQuery(query);
+                    query = "delete from as_feuerloescher where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                    DataConnection.ExecuteQuery(query);
+                    query = "delete from [as_glasbau-element] where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                    DataConnection.ExecuteQuery(query);
+                    query = "delete from as_leuchte where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                    DataConnection.ExecuteQuery(query);
+                    query = "delete from as_oberlicht where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                    DataConnection.ExecuteQuery(query);
+                    query = "delete from as_sonnenschutz where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                    DataConnection.ExecuteQuery(query);
+                    query = "delete from as_tor where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                    DataConnection.ExecuteQuery(query);
+                    query = "delete from as_tuer where gebaeude_id=" + Application.Current.Properties["BuildingId"] + " and geschoss_id='" + Application.Current.Properties["LevelId"] + "' and raum_id='" + Application.Current.Properties["RaumId"] + "'";
+                    DataConnection.ExecuteQuery(query);
+                }
+            }
+        }
         }
     }
-}

@@ -44,7 +44,7 @@ namespace IMMO.BIM.TOOL
                 return selectChildValues;
             }
         }
-        public UserControlSonnenschutz(string[] controlValues)
+        public UserControlSonnenschutz(DataTable controlValues)
         {
             InitializeComponent();
             string query = "select * from code_sonnenschutztyp";
@@ -58,7 +58,7 @@ namespace IMMO.BIM.TOOL
             {
                 if (controlValues != null)
                 {
-                    cbtype.SelectedItem = controlValues[0].ToString().Split(' ')[1];
+                    cbtype.SelectedItem = controlValues.Rows[0][5].ToString();
 
                 }
 
@@ -74,8 +74,8 @@ namespace IMMO.BIM.TOOL
             {
                 if (controlValues != null)
                 {
-                    cbLage.SelectedItem = controlValues[1];
-                    
+                    cbLage.SelectedItem = controlValues.Rows[0][6].ToString();
+
                 }
 
             }
@@ -83,10 +83,79 @@ namespace IMMO.BIM.TOOL
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            UpdateChildGetSet = true;
-            SelectChildTypeValues = "sonnenschutz " + cbtype.SelectedValue + "," + cbLage.SelectedValue; 
-            //var myWindow = 
-            Window.GetWindow(this).Close();
+            string msg = string.Empty;
+            if (Equipment.getEquipId == null)
+            {
+                string query = "select top 1 id from as_sonnenschutz order by id desc";
+                DataTable dt = DataConnection.GetData(query);
+                int id = 1;
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    if (dt.Rows[0][0].ToString() != "")
+                        id = Convert.ToInt32(dt.Rows[0][0].ToString()) + 1;
+                    query = "insert into as_sonnenschutz values(" + Application.Current.Properties["BuildingId"] + ",'" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbtype.SelectedValue + "','" + cbLage.SelectedValue + "')";
+                    msg = DataConnection.ExecuteQuery(query);
+                }
+                else if (dt != null && dt.Rows.Count >= 1)
+                {
+                    int status = 0;
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        if (dt.Rows[i][0].ToString() != "")
+                        {
+                            id = Convert.ToInt32(dt.Rows[0][0].ToString()) + 1;
+                            query = "insert into as_sonnenschutz values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbtype.SelectedValue + "','" + cbLage.SelectedValue + "')";
+                            msg = DataConnection.ExecuteQuery(query);
+                            status = 1;
+                            break;
+                        }
+                    }
+                    if (status == 0)
+                    {
+                        query = "insert into as_sonnenschutz values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbtype.SelectedValue + "','" + cbLage.SelectedValue + "')";
+                        msg = DataConnection.ExecuteQuery(query);
+                    }
+
+                }
+                else
+                {
+                    query = "insert into as_sonnenschutz values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbtype.SelectedValue + "','" + cbLage.SelectedValue + "')";
+                    msg = DataConnection.ExecuteQuery(query);
+                }
+                if (msg == "Executed")
+                {
+                    query = "select top 1 id from as_sonnenschutz order by id desc";
+                    dt = DataConnection.GetData(query);
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        UpdateChildGetSet = true;
+                        SelectChildTypeValues = "EquipId " + dt.Rows[0][0].ToString() + ": " + "sonnenschutz " + cbtype.SelectedValue + "," + cbLage.SelectedValue;
+                        //var myWindow = 
+                        Window.GetWindow(this).Close();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please enter correct input values");
+                }
+            }
+            else
+            {
+                string updatedcolumns = "sonnenschutztyp='" + cbtype.SelectedValue + "' , lage='" + cbLage.SelectedValue + "'";
+                msg = EquipmentData.UpdateEquipment("as_sonnenschutz", updatedcolumns, Equipment.getEquipId);
+                if (msg == "Executed")
+                {
+
+                    UpdateChildGetSet = true;
+                    SelectChildTypeValues = "EquipId " + Equipment.getEquipId + ": " + "sonnenschutz " + cbtype.SelectedValue + "," + cbLage.SelectedValue;
+                    Window.GetWindow(this).Close();
+
+                }
+                else
+                {
+                    MessageBox.Show("Please enter correct input values");
+                }
+            }
         }
     }
 }

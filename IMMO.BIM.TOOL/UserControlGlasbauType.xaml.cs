@@ -44,8 +44,9 @@ namespace IMMO.BIM.TOOL
                 return selectChildValues;
             }
         }
-        public UserControlGlasbauType(string[] controlValues)
+        public UserControlGlasbauType(DataTable controlValues)
         {
+            UpdateChildGetSet = false;
             InitializeComponent();
             string query = "select * from code_glasbauelementtyp";
             DataTable dt = DataConnection.GetData(query);
@@ -58,9 +59,9 @@ namespace IMMO.BIM.TOOL
             {
                 if (controlValues != null)
                 {
-                    cbGlasbauType.SelectedItem = controlValues[0].ToString().Split(' ')[1];
-                    txtGlasflaecheeinseitig.Text = controlValues[1];
-                    txtReinigungsflaechen.Text = controlValues[2];
+                    cbGlasbauType.SelectedItem = controlValues.Rows[0][5].ToString();
+                    txtGlasflaecheeinseitig.Text = controlValues.Rows[0][6].ToString();
+                    txtReinigungsflaechen.Text = controlValues.Rows[0][7].ToString();
                 }
 
             }
@@ -68,10 +69,80 @@ namespace IMMO.BIM.TOOL
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            UpdateChildGetSet = true;
-            SelectChildTypeValues = "glasbau-element " + cbGlasbauType.SelectedValue + "," + txtGlasflaecheeinseitig.Text + "," + txtReinigungsflaechen.Text;
-            //var myWindow = 
-            Window.GetWindow(this).Close();
+            string msg = string.Empty;
+            if (Equipment.getEquipId == null)
+            {
+                string query = "select top 1 id from [as_glasbau-element] order by id desc";
+                DataTable dt = DataConnection.GetData(query);
+                int id = 1;
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    id = Convert.ToInt32(dt.Rows[0][0].ToString()) + 1;
+                    query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
+                    msg = DataConnection.ExecuteQuery(query);
+                }
+                else if (dt != null && dt.Rows.Count >= 1)
+                {
+                    int status = 0;
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        if (dt.Rows[i][0].ToString() != "")
+                        {
+                            id = Convert.ToInt32(dt.Rows[0][0].ToString()) + 1;
+                            query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
+                            msg = DataConnection.ExecuteQuery(query);
+                            status = 1;
+                            break;
+                        }
+                    }
+                    if (status == 0)
+                    {
+                        query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
+                        msg = DataConnection.ExecuteQuery(query);
+                    }
+
+                }
+                else
+                {
+                    query = "insert into [as_glasbau-element] values('" + Application.Current.Properties["BuildingId"] + "','" + Application.Current.Properties["LevelId"] + "','" + Application.Current.Properties["RaumId"] + "'," + id + ",'','" + cbGlasbauType.SelectedValue + "','" + txtGlasflaecheeinseitig.Text + "','" + txtReinigungsflaechen.Text + "')";
+                    msg = DataConnection.ExecuteQuery(query);
+                }
+                if (msg == "Executed")
+                {
+                    query = "select top 1 id from [as_glasbau-element] order by id desc";
+                    dt = DataConnection.GetData(query);
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        UpdateChildGetSet = true;
+                        SelectChildTypeValues = "EquipId " + dt.Rows[0][0].ToString() + ": " + "glasbau-element " + cbGlasbauType.SelectedValue + "," + txtGlasflaecheeinseitig.Text + "," + txtReinigungsflaechen.Text;
+                        //var myWindow = 
+                        Window.GetWindow(this).Close();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please enter correct input values");
+                }
+            }
+
+            else
+            {
+                string updatedcolumns = "typ='" + cbGlasbauType.SelectedValue + "' , [glasflaeche einseitig]='"+txtGlasflaecheeinseitig.Text+ "' , reinigungsflaechen='"+txtReinigungsflaechen.Text+"'";
+                msg = EquipmentData.UpdateEquipment("[as_glasbau-element]", updatedcolumns, Equipment.getEquipId);
+                if (msg == "Executed")
+                {
+                    
+                        UpdateChildGetSet = true;
+                        SelectChildTypeValues = "EquipId " + Equipment.getEquipId + ": " + "glasbau-element " + cbGlasbauType.SelectedValue + "," + txtGlasflaecheeinseitig.Text + "," + txtReinigungsflaechen.Text;
+                        //var myWindow = 
+                        Window.GetWindow(this).Close();
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Please enter correct input values");
+                }
+            }
         }
     }
 }

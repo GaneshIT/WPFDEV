@@ -16,10 +16,11 @@
         <Button Name="btnAddLevel" Content="Add level" HorizontalAlignment="Left" Margin="312,538,0,0" VerticalAlignment="Top" Width="154" Click="BtnAddLevel_Click"/>
         <ListBox Name="lbDisplayBuilding" HorizontalAlignment="Left" Height="422" Margin="64,90,0,0" VerticalAlignment="Top" Width="142" SelectionChanged="LbDisplayBuilding_SelectionChanged"/>
         <ListBox Name="lbDisplayLevels" HorizontalAlignment="Left" Height="422" Margin="312,90,0,0" VerticalAlignment="Top" Width="142" SelectionChanged="LbDisplayLevels_SelectionChanged"/>
-        <ListBox Name="lbDisplayRooms" HorizontalAlignment="Left" Height="422" Margin="550,90,0,0" VerticalAlignment="Top" Width="142"/>
+        <ListBox Name="lbDisplayRooms" HorizontalAlignment="Left" Height="422" Margin="550,90,0,0" VerticalAlignment="Top" Width="142" SelectionChanged="LbDisplayRooms_SelectionChanged"/>
         <Button Content="Edit Room" HorizontalAlignment="Left" Margin="843,462,0,0" VerticalAlignment="Top" Width="162" Name="btnEditRoom" Click="BtnEditRoom_Click" />
         <Button Name="btnDeleteRoom" Content="Delete Room" HorizontalAlignment="Left" Margin="843,496,0,0" VerticalAlignment="Top" Width="162" Height="22" Click="BtnDeleteRoom_Click"/>
         <Button Name="btnExport" Content="Export" HorizontalAlignment="Left" Margin="843,538,0,0" VerticalAlignment="Top" Width="162" Click="BtnExport_Click"/>
+        <Label Name="info" Content="" HorizontalAlignment="Left" Margin="843,85,0,0" VerticalAlignment="Top" Height="372" Width="476"/>
 
     </Grid>
 </Window>

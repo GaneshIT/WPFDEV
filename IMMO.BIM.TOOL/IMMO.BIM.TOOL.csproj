@@ -57,6 +57,7 @@
     <Compile Include="Equipment.xaml.cs">
       <DependentUpon>Equipment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EquipmentData.cs" />
     <Compile Include="UserControlBodenblagType.xaml.cs">
       <DependentUpon>UserControlBodenblagType.xaml</DependentUpon>
     </Compile>

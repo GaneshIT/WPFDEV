@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IMMO.BIM.TOOL"
         mc:Ignorable="d"
-        Title="IMMO BIM Raum CAD-ID:" Height="840.001" Width="1264.037">
+        Title="IMMO BIM Raum CAD-ID:" Height="840.001" Width="1264.037" Closing="Window_Closing">
     <Grid>
         <Label Content="Raum-Nr:" HorizontalAlignment="Left" Margin="22,49,0,0" VerticalAlignment="Top"/>
         <TextBox Name="txtraum" HorizontalAlignment="Left" Height="23" Margin="169,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
@@ -27,7 +27,7 @@
         <TextBox Name="txtanzheizho" HorizontalAlignment="Left" Height="23" Margin="169,442,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <TextBox Name="txtanzpatchsc" HorizontalAlignment="Left" Height="23" Margin="169,495,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <ComboBox Name="cbzustand" HorizontalAlignment="Left" Margin="169,300,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.415,1.632">
-            <ComboBoxItem Content="test"/>
+            
         </ComboBox>
         <Button Name="btnNutzung" Content="Nutzung" HorizontalAlignment="Left" Margin="471,41,0,0" VerticalAlignment="Top" Width="75" Click="BtnNutzung_Click"/>
         <CheckBox Name="chkschukostdose" Content="schukostdose" HorizontalAlignment="Left" Margin="471,214,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.213,1.191" Height="20" Width="191"/>
@@ -43,6 +43,14 @@
         <Button Name="btneditequipment" Content="Edit Equipment" HorizontalAlignment="Left" Margin="1108,41,0,0" VerticalAlignment="Top" Width="86" Click="Btneditequipment_Click"/>
         <Button Name="btnsaveandclose" Content="Save and close" HorizontalAlignment="Left" Margin="745,558,0,0" VerticalAlignment="Top" Width="449" Click="Btnsaveandclose_Click"/>
         <Label Name="lblnutzungResult" Content="" HorizontalAlignment="Left" Margin="471,77,0,0" VerticalAlignment="Top" Height="120" Width="271"/>
-        <ListBox Name="lbEquipments" HorizontalAlignment="Left" Height="441" VerticalAlignment="Top" Width="447" Margin="747,77,0,0"/>
+        <ListBox Name="lbEquipments" HorizontalAlignment="Left" Height="441" VerticalAlignment="Top" Width="447" Margin="747,77,0,0">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="BorderBrush" Value="Black" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
     </Grid>
 </Window>
